@@ -1,0 +1,2818 @@
+@page
+
+@model TireTraceabilityDemo.Pages.Building.IndexModel
+
+@{
+    ViewData["Title"] = "Building Production";
+
+    var operatorName =
+        HttpContext.Session.GetString("BuildingOperatorName")
+        ?? "Operator";
+
+    var operatorInitial =
+        string.IsNullOrWhiteSpace(operatorName) ||
+        operatorName == "Operator"
+            ? "?"
+            : operatorName.Substring(0, 1).ToUpper();
+}
+
+<div class="building-shell">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                B
+            </div>
+
+            <div>
+
+                <div class="brand-title">
+                    TIRE
+                </div>
+
+                <div class="brand-subtitle">
+                    TRACEABILITY
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATION -->
+
+        <div class="station-box">
+
+            <div class="station-label">
+                PRODUCTION STATION
+            </div>
+
+            <div class="station-name">
+                BUILDING
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <div class="menu-label">
+            PRODUCTION
+        </div>
+
+        <nav class="menu">
+
+            <a href="/Building"
+               class="menu-item active">
+
+                <span class="menu-icon">
+                    ◉
+                </span>
+
+                <span>
+                    Building
+                </span>
+
+            </a>
+
+
+            <a href="/Daisha"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    ▣
+                </span>
+
+                <span>
+                    Daisha
+                </span>
+
+            </a>
+
+
+            <a href="/Daisha/Create"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    +
+                </span>
+
+                <span>
+                    Create Daisha
+                </span>
+
+            </a>
+
+
+            <a href="/Dashboard"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="operator-card">
+
+                <div class="operator-icon">
+                    @operatorInitial
+                </div>
+
+                <div>
+
+                    <strong>
+                        @operatorName
+                    </strong>
+
+                    <small>
+                        Building Operator
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="version">
+
+                Tire Traceability Demo
+                <br />
+
+                © 2026
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <div class="eyebrow">
+                    PRODUCTION STATION
+                </div>
+
+                <h1>
+                    Building
+                </h1>
+
+                <p>
+                    Input data produksi ban pada proses
+                    Building sebelum masuk ke proses berikutnya.
+                </p>
+
+            </div>
+
+
+            <div class="station-status">
+
+                <span class="status-dot"></span>
+
+                SYSTEM ONLINE
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             SUCCESS MESSAGE
+        ================================================== -->
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert success">
+
+                <span class="alert-icon">
+                    ✓
+                </span>
+
+                <span>
+                    @TempData["Success"]
+                </span>
+
+            </div>
+        }
+
+
+        <!-- =================================================
+             ERROR MESSAGE
+        ================================================== -->
+
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert error">
+
+                <span class="alert-icon">
+                    !
+                </span>
+
+                <span>
+                    @Model.ErrorMessage
+                </span>
+
+            </div>
+        }
+
+
+        <!-- =================================================
+             PRODUCTION INPUT
+        ================================================== -->
+
+        <section class="production-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="section-label">
+                        PRODUCTION INPUT
+                    </div>
+
+                    <h2>
+                        Create Tire
+                    </h2>
+
+                    <p>
+                        Masukkan informasi ban yang diproduksi
+                        pada proses Building.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form method="post"
+                  asp-page-handler="Create">
+
+
+                <!-- =================================================
+                     MACHINE
+                ================================================== -->
+
+                <div class="machine-detected-card">
+
+                    <div class="machine-detected-icon">
+                        ⚙
+                    </div>
+
+
+                    <div class="machine-detected-content">
+
+                        <div class="machine-detected-label">
+                            DETECTED MACHINE
+                        </div>
+
+
+                        @if (!string.IsNullOrWhiteSpace(Model.MachineNumber))
+                        {
+                            <div class="machine-detected-status detected">
+                                Machine terdeteksi
+                            </div>
+
+
+                            <div class="machine-details">
+
+                                <div class="machine-detail">
+
+                                    <span>
+                                        COMPUTER
+                                    </span>
+
+                                    <strong>
+                                        @Model.CurrentComputerName
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="machine-detail">
+
+                                    <span>
+                                        MACHINE
+                                    </span>
+
+                                    <strong>
+                                        @Model.MachineNumber
+                                    </strong>
+
+                                </div>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="machine-detected-status not-detected">
+                                Machine tidak terdeteksi
+                            </div>
+
+                            <p class="machine-warning">
+                                Nama komputer tidak berhasil dideteksi.
+                            </p>
+
+                            <div class="machine-computer-name">
+
+                                <span>
+                                    COMPUTER
+                                </span>
+
+                                <strong>
+                                    @Model.CurrentComputerName
+                                </strong>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     TIRE SIZE
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label>
+                        Tire Size
+                    </label>
+
+
+                    <select asp-for="TireSize">
+
+                        <option value="">
+                            Select Tire Size
+                        </option>
+
+
+                        @foreach (var size in Model.TireSizes)
+                        {
+                            <option value="@size.Value">
+                                @size.Value
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+
+                <!-- =================================================
+                     SHIFT
+                ================================================== -->
+
+                <div class="shift-card">
+
+                    <div class="shift-icon">
+                        ◷
+                    </div>
+
+
+                    <div class="shift-content">
+
+                        <span class="shift-label">
+                            CURRENT SHIFT
+                        </span>
+
+
+                        <strong>
+                            @Model.CurrentShift
+                        </strong>
+
+
+                        <small>
+                            Shift ditentukan otomatis berdasarkan
+                            waktu produksi.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     OPERATOR
+                ================================================== -->
+
+                <div class="operator-info">
+
+                    <div class="operator-info-icon">
+                        ◉
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            CURRENT OPERATOR
+                        </span>
+
+                        <strong>
+                            @operatorName
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     CREATE BUTTON
+                ================================================== -->
+
+                @if (!string.IsNullOrWhiteSpace(Model.MachineNumber))
+                {
+                    <button type="submit"
+                            class="btn-create">
+
+                        <span>
+                            CREATE TIRE
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </button>
+                }
+                else
+                {
+                    <button type="button"
+                            class="btn-create disabled"
+                            disabled>
+
+                        <span>
+                            MACHINE NOT DETECTED
+                        </span>
+
+                        <span class="arrow">
+                            !
+                        </span>
+
+                    </button>
+                }
+
+            </form>
+
+        </section>
+
+
+        <!-- =================================================
+             QR RESULT
+        ================================================== -->
+
+        @if (!string.IsNullOrWhiteSpace(Model.QrCode))
+        {
+            <section class="qr-result-card">
+
+
+                <!-- HEADER -->
+
+                <div class="qr-result-header">
+
+                    <div>
+
+                        <div class="section-label">
+                            TIRE IDENTIFICATION
+                        </div>
+
+
+                        <h2>
+                            QR Code Tire
+                        </h2>
+
+
+                        <p>
+                            QR Code berisi identitas tire hasil
+                            proses Building.
+                        </p>
+
+                    </div>
+
+
+                    <div class="qr-status">
+                        GENERATED
+                    </div>
+
+                </div>
+
+
+                <!-- CONTENT -->
+
+                <div class="qr-result-content">
+
+
+                    <!-- IMAGE -->
+
+                    <div class="qr-image-wrapper">
+
+                        <img
+                            id="qrImage"
+                            src="@Model.QrCode"
+                            alt="QR Code Tire" />
+
+                    </div>
+
+
+                    <!-- INFORMATION -->
+
+                    <div class="qr-info">
+
+
+                        <div class="qr-info-item">
+
+                            <span>
+                                BARCODE
+                            </span>
+
+                            <strong class="barcode-value">
+                                @Model.Barcode
+                            </strong>
+
+                        </div>
+
+
+                        <div class="qr-info-item">
+
+                            <span>
+                                TIRE SIZE
+                            </span>
+
+                            <strong>
+                                @Model.LastTireSize
+                            </strong>
+
+                        </div>
+
+
+                        <div class="qr-info-item">
+
+                            <span>
+                                MACHINE
+                            </span>
+
+                            <strong>
+                                @Model.LastMachine
+                            </strong>
+
+                        </div>
+
+
+                        <div class="qr-info-item">
+
+                            <span>
+                                OPERATOR
+                            </span>
+
+                            <strong>
+                                @Model.LastOperator
+                            </strong>
+
+                        </div>
+
+
+                        <div class="qr-info-item">
+
+                            <span>
+                                SHIFT
+                            </span>
+
+                            <strong>
+                                @Model.LastShift
+                            </strong>
+
+                        </div>
+
+
+                        <div class="qr-info-item">
+
+                            <span>
+                                CREATED
+                            </span>
+
+                            <strong>
+                                @Model.LastCreatedAt?.ToString("dd/MM/yyyy HH:mm:ss")
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="qr-actions">
+
+
+                    <a
+                        href="?handler=DownloadQr&barcode=@Uri.EscapeDataString(Model.Barcode)"
+                        class="qr-button qr-download">
+
+                        <span>
+                            ↓
+                        </span>
+
+                        Download QR
+
+                    </a>
+
+
+                    <button
+                        type="button"
+                        class="qr-button qr-print"
+                        onclick="printQRCode()">
+
+                        <span>
+                            ⎙
+                        </span>
+
+                        Print QR
+
+                    </button>
+
+                </div>
+
+            </section>
+        }
+
+
+        <!-- =================================================
+             RECENT PRODUCTION
+        ================================================== -->
+
+        <section class="table-card">
+
+            <div class="table-header">
+
+                <div>
+
+                    <div class="section-label">
+                        PRODUCTION HISTORY
+                    </div>
+
+                    <h2>
+                        Recent Tires
+                    </h2>
+
+                    <p>
+                        20 data produksi Building terakhir.
+                    </p>
+
+                </div>
+
+
+                <div class="total-badge">
+                    @Model.RecentTires.Count
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                BARCODE
+                            </th>
+
+                            <th>
+                                TIRE SIZE
+                            </th>
+
+                            <th>
+                                MACHINE
+                            </th>
+
+                            <th>
+                                SHIFT
+                            </th>
+
+                            <th>
+                                OPERATOR
+                            </th>
+
+                            <th>
+                                CREATED
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @if (Model.RecentTires.Count == 0)
+                        {
+                            <tr>
+
+                                <td colspan="7"
+                                    class="empty">
+
+                                    <div class="empty-icon">
+                                        ◉
+                                    </div>
+
+                                    <strong>
+                                        Belum ada produksi
+                                    </strong>
+
+                                    <span>
+                                        Data Tire yang dibuat akan
+                                        muncul di sini.
+                                    </span>
+
+                                </td>
+
+                            </tr>
+                        }
+                        else
+                        {
+                            int number = 1;
+
+
+                            @foreach (var tire in Model.RecentTires)
+                            {
+                                <tr>
+
+                                    <td class="number">
+                                        @number.ToString("D2")
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="barcode">
+
+                                            <span class="barcode-icon">
+                                                ▦
+                                            </span>
+
+                                            <strong>
+                                                @tire.Barcode
+                                            </strong>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        @tire.TireSize
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="machine-badge">
+                                            @tire.MachineNumber
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="shift-badge">
+                                            @tire.Shift
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+                                        @tire.OperatorId
+                                    </td>
+
+
+                                    <td class="date">
+                                        @tire.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+
+                                </tr>
+
+
+                                number++;
+                            }
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             DAISHA
+        ================================================== -->
+
+        <section class="daisha-quick-card">
+
+            <div class="daisha-quick-icon">
+                ▣
+            </div>
+
+
+            <div class="daisha-quick-content">
+
+                <div class="section-label">
+                    MATERIAL CONTAINER
+                </div>
+
+
+                <h2>
+                    Daisha
+                </h2>
+
+
+                <p>
+                    Kelompokkan beberapa Tire hasil Building
+                    ke dalam satu Daisha sebelum dibawa menuju
+                    proses Curing.
+                </p>
+
+            </div>
+
+
+            <div class="daisha-quick-actions">
+
+                <a href="/Daisha/Create"
+                   class="quick-button primary">
+
+                    + Create Daisha
+
+                </a>
+
+
+                <a href="/Daisha"
+                   class="quick-button secondary">
+
+                    View Daisha
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             INFORMATION
+        ================================================== -->
+
+        <section class="info-card">
+
+            <div class="info-icon">
+                i
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Tire Traceability
+                </strong>
+
+
+                <p>
+                    Setiap Tire yang dibuat pada proses Building
+                    mendapatkan identitas unik. Machine ditentukan
+                    otomatis berdasarkan komputer yang digunakan,
+                    sedangkan Shift ditentukan berdasarkan waktu
+                    produksi. Tire kemudian dapat dikelompokkan
+                    ke dalam Daisha sebagai container untuk proses
+                    transportasi menuju Curing.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     PRINT QR AREA
+========================================================== -->
+
+<div id="printArea">
+
+    @if (!string.IsNullOrWhiteSpace(Model.QrCode))
+    {
+        <div class="print-container">
+
+            <div class="print-title">
+                TIRE TRACEABILITY
+            </div>
+
+
+            <div class="print-subtitle">
+                BUILDING
+            </div>
+
+
+            <img
+                src="@Model.QrCode"
+                class="print-qr"
+                alt="QR Code" />
+
+
+            <div class="print-barcode">
+                @Model.Barcode
+            </div>
+
+
+            <div class="print-data">
+
+                <div>
+
+                    <strong>
+                        Tire Size
+                    </strong>
+
+                    <span>
+                        @Model.LastTireSize
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Machine
+                    </strong>
+
+                    <span>
+                        @Model.LastMachine
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Operator
+                    </strong>
+
+                    <span>
+                        @Model.LastOperator
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Shift
+                    </strong>
+
+                    <span>
+                        @Model.LastShift
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Created
+                    </strong>
+
+                    <span>
+                        @Model.LastCreatedAt?.ToString("dd/MM/yyyy HH:mm:ss")
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: #090909;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   SHELL
+========================================================= */
+
+.building-shell {
+    display: flex;
+    min-height: 100vh;
+    background: #090909;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 270px;
+    height: 100vh;
+
+    padding: 28px 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #111111;
+    border-right: 1px solid #292929;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 5px 10px 30px;
+
+    border-bottom: 1px solid #292929;
+}
+
+.brand-mark {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e30613;
+
+    border-radius: 6px;
+
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.brand-title {
+    font-size: 19px;
+    font-weight: 800;
+
+    letter-spacing: 3px;
+}
+
+.brand-subtitle {
+    margin-top: 3px;
+
+    color: #777777;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   STATION
+========================================================= */
+
+.station-box {
+    margin-top: 25px;
+    padding: 15px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+.station-label {
+    color: #777777;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+.station-name {
+    margin-top: 7px;
+
+    color: #e30613;
+
+    font-size: 18px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.menu-label {
+    margin: 32px 12px 12px;
+
+    color: #555555;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 14px;
+
+    color: #999999;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.menu-item:hover {
+    color: #ffffff;
+
+    background: #1c1c1c;
+}
+
+.menu-item.active {
+    color: #ffffff;
+
+    background: #e30613;
+}
+
+.menu-icon {
+    width: 24px;
+
+    text-align: center;
+
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM
+========================================================= */
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+.operator-card {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 14px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+.operator-icon {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 50%;
+
+    color: #e30613;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.operator-card strong {
+    display: block;
+
+    font-size: 12px;
+}
+
+.operator-card small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #666666;
+
+    font-size: 10px;
+}
+
+.version {
+    margin-top: 18px;
+
+    color: #444444;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main-content {
+    width: calc(100% - 270px);
+
+    margin-left: 270px;
+
+    padding: 48px 55px 70px;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 35px;
+}
+
+.eyebrow,
+.section-label {
+    color: #e30613;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.topbar h1 {
+    margin: 9px 0 8px;
+
+    font-size: 40px;
+
+    line-height: 1.1;
+}
+
+.topbar p {
+    margin: 0;
+
+    max-width: 750px;
+
+    color: #888888;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
+
+.station-status {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 9px 12px;
+
+    background: #102419;
+
+    border: 1px solid #1c512c;
+
+    border-radius: 5px;
+
+    color: #63d886;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    background: #36c85f;
+
+    border-radius: 50%;
+}
+
+
+/* =========================================================
+   ALERT
+========================================================= */
+
+.alert {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+
+    padding: 15px 18px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+}
+
+.alert.success {
+    background: #0d2416;
+
+    border: 1px solid #174d29;
+
+    color: #69dc8b;
+}
+
+.alert.error {
+    background: #2b1012;
+
+    border: 1px solid #5d1c20;
+
+    color: #ff7079;
+}
+
+.alert-icon {
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   PRODUCTION CARD
+========================================================= */
+
+.production-card {
+    padding: 28px;
+
+    margin-bottom: 28px;
+
+    background: #121212;
+
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+}
+
+.card-header {
+    margin-bottom: 27px;
+}
+
+.card-header h2 {
+    margin: 7px 0 6px;
+
+    font-size: 26px;
+}
+
+.card-header p {
+    margin: 0;
+
+    color: #777777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   MACHINE
+========================================================= */
+
+.machine-detected-card {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+
+    padding: 17px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+.machine-detected-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 6px;
+
+    color: #e30613;
+
+    font-size: 18px;
+}
+
+.machine-detected-content {
+    width: 100%;
+}
+
+.machine-detected-label {
+    color: #666666;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+.machine-detected-status {
+    margin-top: 5px;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.machine-detected-status.detected {
+    color: #63d886;
+}
+
+.machine-detected-status.not-detected {
+    color: #ff7079;
+}
+
+.machine-details {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    margin-top: 14px;
+}
+
+.machine-detail {
+    padding: 11px 12px;
+
+    background: #0f0f0f;
+
+    border: 1px solid #292929;
+
+    border-radius: 5px;
+}
+
+.machine-detail span,
+.machine-computer-name span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #555555;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.machine-detail strong,
+.machine-computer-name strong {
+    display: block;
+
+    color: #dddddd;
+
+    font-size: 12px;
+
+    word-break: break-word;
+}
+
+.machine-warning {
+    margin: 7px 0 14px;
+
+    color: #777777;
+
+    font-size: 12px;
+}
+
+.machine-computer-name {
+    padding: 11px 12px;
+
+    background: #0f0f0f;
+
+    border: 1px solid #292929;
+
+    border-radius: 5px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #aaaaaa;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.form-group select {
+    width: 100%;
+
+    padding: 14px 15px;
+
+    background: #0b0b0b;
+
+    border: 1px solid #333333;
+
+    border-radius: 5px;
+
+    outline: none;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+.form-group select:focus {
+    border-color: #e30613;
+
+    box-shadow:
+        0 0 0 2px rgba(227, 6, 19, 0.1);
+}
+
+.form-group select option {
+    background: #181818;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   SHIFT
+========================================================= */
+
+.shift-card {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+
+    padding: 14px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 6px;
+}
+
+.shift-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 50%;
+
+    color: #e30613;
+
+    font-size: 17px;
+}
+
+.shift-content {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.shift-label {
+    color: #666666;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.shift-content strong {
+    margin-top: 3px;
+
+    color: #ffffff;
+
+    font-size: 14px;
+}
+
+.shift-content small {
+    margin-top: 4px;
+
+    color: #666666;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   OPERATOR
+========================================================= */
+
+.operator-info {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 8px;
+
+    margin-bottom: 22px;
+
+    padding: 14px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 6px;
+}
+
+.operator-info-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 50%;
+
+    color: #e30613;
+}
+
+.operator-info span {
+    display: block;
+
+    color: #666666;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.operator-info strong {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   CREATE BUTTON
+========================================================= */
+
+.btn-create {
+    width: 100%;
+
+    min-height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    background: #e30613;
+
+    border: 1px solid #e30613;
+
+    border-radius: 5px;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.btn-create:hover {
+    background: #c90511;
+
+    border-color: #c90511;
+}
+
+.btn-create.disabled {
+    background: #2a2a2a;
+
+    border-color: #333333;
+
+    color: #666666;
+
+    cursor: not-allowed;
+}
+
+.arrow {
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   QR RESULT
+========================================================= */
+
+.qr-result-card {
+    margin-bottom: 28px;
+
+    padding: 28px;
+
+    background: #121212;
+
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+}
+
+.qr-result-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 20px;
+
+    border-bottom: 1px solid #292929;
+}
+
+.qr-result-header h2 {
+    margin: 7px 0 5px;
+
+    font-size: 24px;
+}
+
+.qr-result-header p {
+    margin: 0;
+
+    color: #777777;
+
+    font-size: 13px;
+}
+
+.qr-status {
+    padding: 7px 10px;
+
+    background: #102419;
+
+    border: 1px solid #1c512c;
+
+    border-radius: 4px;
+
+    color: #63d886;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   QR CONTENT
+========================================================= */
+
+.qr-result-content {
+    display: grid;
+
+    grid-template-columns: 280px 1fr;
+
+    gap: 28px;
+
+    align-items: center;
+
+    margin-top: 25px;
+}
+
+
+/* =========================================================
+   QR IMAGE
+========================================================= */
+
+.qr-image-wrapper {
+    width: 270px;
+    height: 270px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 15px;
+
+    background: #ffffff;
+
+    border-radius: 7px;
+}
+
+.qr-image-wrapper img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    image-rendering: pixelated;
+}
+
+
+/* =========================================================
+   QR INFO
+========================================================= */
+
+.qr-info {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+}
+
+.qr-info-item {
+    padding: 14px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 6px;
+}
+
+.qr-info-item span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #666666;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.qr-info-item strong {
+    display: block;
+
+    color: #dddddd;
+
+    font-size: 13px;
+
+    word-break: break-word;
+}
+
+.barcode-value {
+    color: #ffffff !important;
+
+    font-family: Consolas, monospace;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   QR ACTIONS
+========================================================= */
+
+.qr-actions {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+.qr-button {
+    min-height: 45px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 0 16px;
+
+    border-radius: 5px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.qr-download {
+    background: #e30613;
+
+    border: 1px solid #e30613;
+
+    color: #ffffff;
+}
+
+.qr-download:hover {
+    background: #c90511;
+
+    border-color: #c90511;
+}
+
+.qr-print {
+    background: #181818;
+
+    border: 1px solid #333333;
+
+    color: #dddddd;
+}
+
+.qr-print:hover {
+    border-color: #e30613;
+
+    color: #ffffff;
+}
+
+.qr-button span {
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-card {
+    overflow: hidden;
+
+    background: #121212;
+
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+}
+
+.table-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 22px 23px;
+
+    border-bottom: 1px solid #292929;
+}
+
+.table-header h2 {
+    margin: 7px 0 5px;
+
+    font-size: 22px;
+}
+
+.table-header p {
+    margin: 0;
+
+    color: #666666;
+
+    font-size: 11px;
+}
+
+.total-badge {
+    min-width: 35px;
+
+    padding: 7px 10px;
+
+    text-align: center;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 5px;
+
+    color: #e30613;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+thead {
+    background: #181818;
+}
+
+th {
+    padding: 14px 18px;
+
+    color: #666666;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+td {
+    padding: 16px 18px;
+
+    border-top: 1px solid #242424;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+}
+
+.number {
+    color: #555555;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   BARCODE
+========================================================= */
+
+.barcode {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+.barcode-icon {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #1c1c1c;
+
+    border: 1px solid #333333;
+
+    border-radius: 4px;
+
+    color: #e30613;
+}
+
+.barcode strong {
+    font-size: 11px;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   MACHINE
+========================================================= */
+
+.machine-badge {
+    display: inline-block;
+
+    padding: 6px 8px;
+
+    background: #1c1c1c;
+
+    border: 1px solid #333333;
+
+    border-radius: 4px;
+
+    color: #dddddd;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   SHIFT
+========================================================= */
+
+.shift-badge {
+    display: inline-block;
+
+    padding: 6px 8px;
+
+    background: #1c1c1c;
+
+    border: 1px solid #333333;
+
+    border-radius: 4px;
+
+    color: #dddddd;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.date {
+    color: #777777;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty {
+    padding: 60px 20px;
+
+    text-align: center;
+}
+
+.empty-icon {
+    margin-bottom: 12px;
+
+    color: #444444;
+
+    font-size: 30px;
+}
+
+.empty strong {
+    display: block;
+
+    font-size: 14px;
+}
+
+.empty span {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #666666;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   DAISHA QUICK ACCESS
+========================================================= */
+
+.daisha-quick-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-top: 28px;
+
+    padding: 22px;
+
+    background: #111111;
+
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+}
+
+.daisha-quick-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 7px;
+
+    color: #e30613;
+
+    font-size: 23px;
+}
+
+.daisha-quick-content {
+    flex: 1;
+}
+
+.daisha-quick-content h2 {
+    margin: 6px 0;
+
+    font-size: 22px;
+}
+
+.daisha-quick-content p {
+    margin: 0;
+
+    color: #777777;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+.daisha-quick-actions {
+    display: flex;
+
+    gap: 8px;
+
+    flex-shrink: 0;
+}
+
+.quick-button {
+    min-height: 42px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 14px;
+
+    border-radius: 5px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.quick-button.primary {
+    background: #e30613;
+
+    border: 1px solid #e30613;
+
+    color: #ffffff;
+}
+
+.quick-button.primary:hover {
+    background: #c90511;
+}
+
+.quick-button.secondary {
+    background: #181818;
+
+    border: 1px solid #333333;
+
+    color: #cccccc;
+}
+
+.quick-button.secondary:hover {
+    border-color: #e30613;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   INFORMATION
+========================================================= */
+
+.info-card {
+    display: flex;
+
+    gap: 15px;
+
+    margin-top: 25px;
+
+    padding: 20px;
+
+    background: #111111;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+.info-icon {
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 50%;
+
+    color: #e30613;
+
+    font-weight: 700;
+}
+
+.info-card strong {
+    font-size: 13px;
+}
+
+.info-card p {
+    margin: 7px 0 0;
+
+    color: #777777;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   PRINT AREA
+========================================================= */
+
+#printArea {
+    display: none;
+}
+
+.print-container {
+    width: 100%;
+
+    padding: 20px;
+
+    text-align: center;
+
+    color: #000000;
+
+    background: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.print-title {
+    font-size: 22px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.print-subtitle {
+    margin-top: 5px;
+
+    color: #555555;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.print-qr {
+    width: 300px;
+    height: 300px;
+
+    display: block;
+
+    margin: 20px auto;
+
+    object-fit: contain;
+}
+
+.print-barcode {
+    color: #000000;
+
+    font-family: Consolas, monospace;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.print-data {
+    width: 350px;
+
+    margin: 20px auto 0;
+
+    text-align: left;
+
+    font-size: 12px;
+}
+
+.print-data > div {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 7px 0;
+
+    border-bottom: 1px solid #dddddd;
+}
+
+.print-data strong {
+    font-weight: 700;
+}
+
+.print-data span {
+    text-align: right;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@@media (max-width: 1000px) {
+
+    .sidebar {
+        width: 220px;
+    }
+
+    .main-content {
+        width: calc(100% - 220px);
+
+        margin-left: 220px;
+
+        padding: 35px 25px;
+    }
+
+    .qr-result-content {
+        grid-template-columns: 1fr;
+    }
+
+    .qr-image-wrapper {
+        margin: 0 auto;
+    }
+
+    .daisha-quick-card {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .daisha-quick-actions {
+        width: 100%;
+    }
+
+    .quick-button {
+        flex: 1;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@@media (max-width: 700px) {
+
+    .sidebar {
+        width: 70px;
+
+        padding: 20px 8px;
+    }
+
+    .brand {
+        justify-content: center;
+
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .brand > div:last-child,
+    .station-box,
+    .menu-label,
+    .menu-item span:last-child,
+    .operator-card > div:last-child,
+    .version {
+        display: none;
+    }
+
+    .menu-item {
+        justify-content: center;
+    }
+
+    .main-content {
+        width: calc(100% - 70px);
+
+        margin-left: 70px;
+
+        padding: 30px 15px;
+    }
+
+    .topbar {
+        flex-direction: column;
+    }
+
+    .topbar h1 {
+        font-size: 30px;
+    }
+
+    .machine-details {
+        grid-template-columns: 1fr;
+    }
+
+    .qr-info {
+        grid-template-columns: 1fr;
+    }
+
+    .qr-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .qr-result-header {
+        flex-direction: column;
+    }
+
+    .daisha-quick-actions {
+        width: 100%;
+
+        flex-direction: column;
+    }
+
+    .quick-button {
+        width: 100%;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@@media print {
+
+    body {
+        background: #ffffff !important;
+
+        color: #000000 !important;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    #printArea,
+    #printArea * {
+        visibility: visible;
+    }
+
+    #printArea {
+        display: block;
+
+        position: absolute;
+
+        left: 0;
+
+        top: 0;
+
+        width: 100%;
+
+        min-height: 100vh;
+
+        padding-top: 40px;
+
+        background: #ffffff;
+
+        color: #000000;
+    }
+
+    .print-title {
+        color: #000000;
+    }
+
+    .print-subtitle {
+        color: #555555;
+    }
+
+    .print-barcode {
+        color: #000000;
+    }
+
+    .print-data {
+        color: #000000;
+    }
+
+}
+
+</style>
+
+
+<script>
+
+function printQRCode() {
+
+    const qrImage =
+        document.getElementById("qrImage");
+
+    if (!qrImage) {
+
+        alert(
+            "QR Code belum tersedia."
+        );
+
+        return;
+    }
+
+    window.print();
+}
+
+</script>

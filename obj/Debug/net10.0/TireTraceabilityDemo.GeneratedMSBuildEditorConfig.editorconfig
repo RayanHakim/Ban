@@ -1,0 +1,119 @@
+is_global = true
+build_property.TargetFramework = net10.0
+build_property.TargetFramework = net10.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.RootNamespace = TireTraceabilityDemo
+build_property.RootNamespace = TireTraceabilityDemo
+build_property.ProjectDir = C:\Users\LENOVO\Documents\Maganghub Bridgestone\Project Bridgestone\Code\TireTraceabilityDemo\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\LENOVO\Documents\Maganghub Bridgestone\Project Bridgestone\Code\TireTraceabilityDemo
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Admin/Dropdowns/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cRHJvcGRvd25zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Admin/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Admin/Operators/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cT3BlcmF0b3JzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Building/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQnVpbGRpbmdcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Building/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQnVpbGRpbmdcTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Curing/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VyaW5nXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Curing/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VyaW5nXExvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Daisha/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFpc2hhXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Daisha/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFpc2hhXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Daisha/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFpc2hhXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Dashboard/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFzaGJvYXJkXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Inspection/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5zcGVjdGlvblxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Inspection/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5zcGVjdGlvblxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Tracking/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHJhY2tpbmdcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/Documents/Maganghub Bridgestone/Project Bridgestone/Code/TireTraceabilityDemo/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-ns25qp766n

@@ -1,0 +1,1875 @@
+@page
+
+@model TireTraceabilityDemo.Pages.Tracking.IndexModel
+
+@{
+    ViewData["Title"] = "Tire Tracking";
+}
+
+<div class="tracking-page">
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <header class="page-header">
+
+        <div>
+
+            <div class="page-label">
+                TRACEABILITY SYSTEM
+            </div>
+
+            <h1>
+                Tire Tracking
+            </h1>
+
+            <p>
+                Menelusuri perjalanan tire dari Building hingga Final Inspection.
+            </p>
+
+        </div>
+
+
+        <a href="/Dashboard"
+           class="back-button">
+
+            ← Dashboard
+
+        </a>
+
+    </header>
+
+
+    <!-- ===================================================== -->
+    <!-- MESSAGE -->
+    <!-- ===================================================== -->
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="message @(Model.IsFound ? "success" : "error")">
+
+            @Model.Message
+
+        </div>
+    }
+
+
+    <!-- ===================================================== -->
+    <!-- DAISHA / TAG SEARCH -->
+    <!-- ===================================================== -->
+
+    <section class="daisha-search-card">
+
+        <div class="daisha-search-icon">
+            ▣
+        </div>
+
+
+        <div class="daisha-search-content">
+
+            <div class="card-label">
+                DAISHA / MATERIAL CONTAINER
+            </div>
+
+            <h2>
+                Search Daisha / Tag
+            </h2>
+
+            <p>
+                Cari Daisha menggunakan ID Tag.
+                Contoh: DS-20260830-001.
+                Setelah ditemukan, kamu dapat membuka detail
+                seluruh tire yang berada di dalam Daisha tersebut.
+            </p>
+
+
+            <form method="get"
+                  action="/Daisha">
+
+                <div class="daisha-search-row">
+
+                    <input type="text"
+                           name="Search"
+                           class="form-control"
+                           placeholder="Masukkan Daisha ID, contoh DS-20260830-001"
+                           autocomplete="off" />
+
+                    <button type="submit"
+                            class="daisha-search-button">
+
+                        Search Tag
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <div class="daisha-search-action">
+
+            <a href="/Daisha"
+               class="daisha-list-button">
+
+                View Daisha →
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- TIRE FILTER -->
+    <!-- ===================================================== -->
+
+    <section class="filter-card">
+
+        <div class="card-label">
+            TIRE HISTORY
+        </div>
+
+        <h2>
+            Production History
+        </h2>
+
+        <p class="description">
+            Seluruh data tire ditampilkan berdasarkan data proses Building.
+            Gunakan filter untuk menemukan data berdasarkan tanggal atau barcode.
+        </p>
+
+
+        <form method="get">
+
+            <div class="filter-grid">
+
+                <div class="filter-group">
+
+                    <label for="BuildingDate">
+                        Building Date
+                    </label>
+
+                    <input type="date"
+                           id="BuildingDate"
+                           name="BuildingDate"
+                           value="@(Model.BuildingDate?.ToString("yyyy-MM-dd"))"
+                           class="form-control" />
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="Barcode">
+                        Barcode / QR Code
+                    </label>
+
+                    <input type="text"
+                           id="Barcode"
+                           name="Barcode"
+                           value="@Model.Barcode"
+                           class="form-control"
+                           placeholder="Masukkan barcode tire" />
+
+                </div>
+
+
+                <div class="filter-actions">
+
+                    <button type="submit"
+                            class="filter-button">
+
+                        Filter Data
+
+                    </button>
+
+
+                    <a href="/Tracking"
+                       class="reset-button">
+
+                        Reset
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- SUMMARY -->
+    <!-- ===================================================== -->
+
+    <section class="summary-bar">
+
+        <div>
+
+            <span class="summary-label">
+                TOTAL TIRE
+            </span>
+
+            <strong>
+                @Model.Tires.Count
+            </strong>
+
+        </div>
+
+
+        <div class="summary-info">
+
+            Klik barcode tire untuk melihat detail traceability.
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- TIRE HISTORY -->
+    <!-- ===================================================== -->
+
+    <section class="history-card">
+
+        <div class="history-header">
+
+            <div>
+
+                <div class="card-label">
+                    PRODUCTION RECORD
+                </div>
+
+                <h2>
+                    All Tire History
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        @if (Model.Tires.Count > 0)
+        {
+            <div class="table-wrapper">
+
+                <table class="tire-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Barcode
+                            </th>
+
+                            <th>
+                                Tire Size
+                            </th>
+
+                            <th>
+                                Machine
+                            </th>
+
+                            <th>
+                                Operator
+                            </th>
+
+                            <th>
+                                Shift
+                            </th>
+
+                            <th>
+                                Building Date
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var tire in Model.Tires)
+                        {
+                            var curing =
+                                Model.GetCuring(tire.Barcode);
+
+                            var inspection =
+                                Model.GetInspection(tire.Barcode);
+
+
+                            <tr class="tire-row">
+
+
+                                <!-- BARCODE -->
+
+                                <td>
+
+                                    <a class="barcode-link"
+                                       href="/Tracking?Barcode=@Uri.EscapeDataString(tire.Barcode)">
+
+                                        @tire.Barcode
+
+                                    </a>
+
+                                </td>
+
+
+                                <!-- TIRE SIZE -->
+
+                                <td>
+
+                                    @tire.TireSize
+
+                                </td>
+
+
+                                <!-- MACHINE -->
+
+                                <td>
+
+                                    @tire.MachineNumber
+
+                                </td>
+
+
+                                <!-- OPERATOR -->
+
+                                <td>
+
+                                    @tire.OperatorId
+
+                                </td>
+
+
+                                <!-- SHIFT -->
+
+                                <td>
+
+                                    <span class="shift-badge">
+
+                                        @tire.Shift
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- DATE -->
+
+                                <td>
+
+                                    @tire.CreatedAt.ToString(
+                                        "dd MMM yyyy HH:mm")
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    @if (inspection != null)
+                                    {
+                                        <span class="status completed">
+
+                                            INSPECTED
+
+                                        </span>
+                                    }
+                                    else if (curing != null)
+                                    {
+                                        <span class="status curing">
+
+                                            CURING
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status building">
+
+                                            BUILDING
+
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- VIEW -->
+
+                                <td>
+
+                                    <a class="view-button"
+                                       href="/Tracking?Barcode=@Uri.EscapeDataString(tire.Barcode)">
+
+                                        View →
+
+                                    </a>
+
+                                </td>
+
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    —
+                </div>
+
+                <h3>
+                    Data tidak ditemukan
+                </h3>
+
+                <p>
+                    Tidak ada tire yang sesuai dengan filter.
+                </p>
+
+                <a href="/Tracking"
+                   class="reset-button">
+
+                    Tampilkan Semua Data
+
+                </a>
+
+            </div>
+        }
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- TIRE TRACEABILITY RESULT -->
+    <!-- ===================================================== -->
+
+    @if (Model.IsFound && Model.Tire != null)
+    {
+        <section class="result-section">
+
+            <div class="result-header">
+
+                <div>
+
+                    <div class="card-label">
+                        TRACEABILITY RESULT
+                    </div>
+
+                    <h2>
+                        Tire Journey
+                    </h2>
+
+                </div>
+
+
+                <div class="barcode-display">
+
+                    @Model.Tire.Barcode
+
+                </div>
+
+            </div>
+
+
+            <div class="timeline">
+
+
+                <!-- ================================================= -->
+                <!-- BUILDING -->
+                <!-- ================================================= -->
+
+                <div class="timeline-item completed">
+
+                    <div class="timeline-marker">
+                        ✓
+                    </div>
+
+
+                    <div class="timeline-content">
+
+                        <div class="timeline-header">
+
+                            <div>
+
+                                <span class="process-label">
+                                    PROCESS 01
+                                </span>
+
+                                <h3>
+                                    Building
+                                </h3>
+
+                            </div>
+
+
+                            <span class="status-badge">
+                                COMPLETED
+                            </span>
+
+                        </div>
+
+
+                        <div class="info-grid">
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Barcode
+                                </span>
+
+                                <strong>
+                                    @Model.Tire.Barcode
+                                </strong>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Tire Size
+                                </span>
+
+                                <strong>
+                                    @Model.Tire.TireSize
+                                </strong>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Operator
+                                </span>
+
+                                <strong>
+                                    @Model.Tire.OperatorId
+                                </strong>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Machine
+                                </span>
+
+                                <strong>
+                                    @Model.Tire.MachineNumber
+                                </strong>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Shift
+                                </span>
+
+                                <strong>
+                                    @Model.Tire.Shift
+                                </strong>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Building At
+                                </span>
+
+                                <strong>
+                                    @Model.Tire.CreatedAt.ToString(
+                                        "dd MMM yyyy HH:mm")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- CURING -->
+                <!-- ================================================= -->
+
+                @if (Model.CuringData != null)
+                {
+                    <div class="timeline-item completed">
+
+                        <div class="timeline-marker">
+                            ✓
+                        </div>
+
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-header">
+
+                                <div>
+
+                                    <span class="process-label">
+                                        PROCESS 02
+                                    </span>
+
+                                    <h3>
+                                        Curing
+                                    </h3>
+
+                                </div>
+
+
+                                <span class="status-badge">
+                                    COMPLETED
+                                </span>
+
+                            </div>
+
+
+                            <div class="info-grid">
+
+
+                                <div class="info-item">
+
+                                    <span>
+                                        Barcode
+                                    </span>
+
+                                    <strong>
+                                        @Model.CuringData.Barcode
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="info-item">
+
+                                    <span>
+                                        Mold Number
+                                    </span>
+
+                                    <strong>
+                                        @Model.CuringData.MoldNumber
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="info-item">
+
+                                    <span>
+                                        Operator
+                                    </span>
+
+                                    <strong>
+                                        @Model.CuringData.OperatorId
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="info-item">
+
+                                    <span>
+                                        Shift
+                                    </span>
+
+                                    <strong>
+                                        @Model.CuringData.Shift
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="info-item">
+
+                                    <span>
+                                        Curing At
+                                    </span>
+
+                                    <strong>
+                                        @Model.CuringData.CuringAt.ToString(
+                                            "dd MMM yyyy HH:mm")
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="timeline-item pending">
+
+                        <div class="timeline-marker">
+                            2
+                        </div>
+
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-header">
+
+                                <div>
+
+                                    <span class="process-label">
+                                        PROCESS 02
+                                    </span>
+
+                                    <h3>
+                                        Curing
+                                    </h3>
+
+                                </div>
+
+
+                                <span class="pending-badge">
+                                    NOT COMPLETED
+                                </span>
+
+                            </div>
+
+
+                            <p class="pending-text">
+
+                                Tire belum tercatat pada proses Curing.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+                }
+
+
+                <!-- ================================================= -->
+                <!-- FINAL INSPECTION -->
+                <!-- ================================================= -->
+
+                @if (Model.InspectionData != null)
+                {
+                    <div class="timeline-item completed">
+
+                        <div class="timeline-marker">
+                            ✓
+                        </div>
+
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-header">
+
+                                <div>
+
+                                    <span class="process-label">
+                                        PROCESS 03
+                                    </span>
+
+                                    <h3>
+                                        Final Inspection
+                                    </h3>
+
+                                </div>
+
+
+                                <span class="status-badge">
+                                    COMPLETED
+                                </span>
+
+                            </div>
+
+
+                            <div class="info-grid">
+
+
+                                <div class="info-item">
+
+                                    <span>
+                                        Tire Size
+                                    </span>
+
+                                    <strong>
+                                        @Model.InspectionData.TireSize
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="info-item">
+
+                                    <span>
+                                        Mold Number
+                                    </span>
+
+                                    <strong>
+                                        @Model.InspectionData.MoldNumber
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="info-item">
+
+                                    <span>
+                                        Operator
+                                    </span>
+
+                                    <strong>
+                                        @Model.InspectionData.OperatorId
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="info-item">
+
+                                    <span>
+                                        Defect
+                                    </span>
+
+                                    <strong>
+
+                                        @(string.IsNullOrEmpty(
+                                            Model.InspectionData.DefectName)
+                                            ? "-"
+                                            : Model.InspectionData.DefectName)
+
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="info-item">
+
+                                    <span>
+                                        Position
+                                    </span>
+
+                                    <strong>
+
+                                        @(string.IsNullOrEmpty(
+                                            Model.InspectionData.Position)
+                                            ? "-"
+                                            : Model.InspectionData.Position)
+
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="info-item">
+
+                                    <span>
+                                        Inspection At
+                                    </span>
+
+                                    <strong>
+
+                                        @Model.InspectionData.InspectionAt.ToString(
+                                            "dd MMM yyyy HH:mm")
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="inspection-status">
+
+                                <div class="status-title">
+
+                                    INSPECTION RESULT
+
+                                </div>
+
+
+                                <div class="result-badges">
+
+                                    @if (Model.InspectionData.Rework)
+                                    {
+                                        <span class="result-badge rework">
+                                            REWORK
+                                        </span>
+                                    }
+
+
+                                    @if (Model.InspectionData.Strap)
+                                    {
+                                        <span class="result-badge strap">
+                                            STRAP / SCRAP
+                                        </span>
+                                    }
+
+
+                                    @if (Model.InspectionData.Hold)
+                                    {
+                                        <span class="result-badge hold">
+                                            HOLD
+                                        </span>
+                                    }
+
+
+                                    @if (!Model.InspectionData.Rework &&
+                                         !Model.InspectionData.Strap &&
+                                         !Model.InspectionData.Hold)
+                                    {
+                                        <span class="result-badge normal">
+                                            NORMAL
+                                        </span>
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="timeline-item pending">
+
+                        <div class="timeline-marker">
+                            3
+                        </div>
+
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-header">
+
+                                <div>
+
+                                    <span class="process-label">
+                                        PROCESS 03
+                                    </span>
+
+                                    <h3>
+                                        Final Inspection
+                                    </h3>
+
+                                </div>
+
+
+                                <span class="pending-badge">
+                                    NOT COMPLETED
+                                </span>
+
+                            </div>
+
+
+                            <p class="pending-text">
+
+                                Tire belum menjalani Final Inspection.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </section>
+    }
+
+</div>
+
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    background: #090909;
+    color: #ffffff;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+    font-size: 15px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.tracking-page {
+    min-height: 100vh;
+    padding: 40px 50px 60px;
+    background: #090909;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.page-label,
+.card-label {
+    color: #e30613;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.page-header h1 {
+    margin: 8px 0;
+    color: #ffffff;
+    font-size: 36px;
+}
+
+.page-header p {
+    margin: 0;
+    color: #888888;
+    font-size: 15px;
+}
+
+.back-button {
+    padding: 11px 16px;
+    background: #151515;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    color: #dddddd;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.back-button:hover {
+    background: #1b1b1b;
+    border-color: #e30613;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message {
+    margin-bottom: 25px;
+    padding: 14px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.message.success {
+    background: #102016;
+    border: 1px solid #245c31;
+    color: #6dd481;
+}
+
+.message.error {
+    background: #251010;
+    border: 1px solid #6b2929;
+    color: #ff7777;
+}
+
+
+/* =========================================================
+   DAISHA SEARCH
+========================================================= */
+
+.daisha-search-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 20px;
+    padding: 25px;
+    background: #111111;
+    border: 1px solid #292929;
+    border-radius: 8px;
+}
+
+.daisha-search-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: #261012;
+    border: 1px solid #46171b;
+    border-radius: 7px;
+    color: #e30613;
+    font-size: 25px;
+}
+
+.daisha-search-content {
+    flex: 1;
+}
+
+.daisha-search-content h2 {
+    margin: 7px 0;
+    color: #ffffff;
+    font-size: 23px;
+}
+
+.daisha-search-content p {
+    margin: 0 0 18px;
+    max-width: 800px;
+    color: #777777;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.daisha-search-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.daisha-search-row .form-control {
+    flex: 1;
+}
+
+.daisha-search-button {
+    min-width: 130px;
+    padding: 13px 18px;
+    border: 1px solid #e30613;
+    border-radius: 5px;
+    background: #e30613;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.daisha-search-button:hover {
+    background: #c90511;
+    border-color: #c90511;
+}
+
+.daisha-search-action {
+    flex-shrink: 0;
+}
+
+.daisha-list-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 15px;
+    background: #181818;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    color: #cccccc;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.daisha-list-button:hover {
+    border-color: #e30613;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+.filter-card {
+    margin-bottom: 20px;
+    padding: 30px;
+    background: #111111;
+    border: 1px solid #292929;
+    border-radius: 8px;
+}
+
+.filter-card h2 {
+    margin: 7px 0 8px;
+    color: #ffffff;
+    font-size: 24px;
+}
+
+.description {
+    margin: 0 0 25px;
+    color: #888888;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 15px;
+    align-items: end;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #dddddd;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.form-control {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #383838;
+    border-radius: 5px;
+    outline: none;
+    background: #181818;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.form-control::placeholder {
+    color: #666666;
+}
+
+.form-control:focus {
+    background: #1c1c1c;
+    border-color: #e30613;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-button {
+    padding: 13px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #e30613;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.filter-button:hover {
+    background: #c9000b;
+}
+
+.reset-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 18px;
+    border: 1px solid #383838;
+    border-radius: 5px;
+    background: #181818;
+    color: #bbbbbb;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.reset-button:hover {
+    border-color: #e30613;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.summary-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 15px 20px;
+    background: #111111;
+    border: 1px solid #292929;
+    border-radius: 6px;
+}
+
+.summary-bar > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.summary-label {
+    color: #777777;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.summary-bar strong {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.summary-info {
+    color: #777777;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+.history-card {
+    padding: 30px;
+    background: #111111;
+    border: 1px solid #292929;
+    border-radius: 8px;
+}
+
+.history-header {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #292929;
+}
+
+.history-header h2 {
+    margin: 7px 0 0;
+    color: #ffffff;
+    font-size: 23px;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tire-table {
+    width: 100%;
+    min-width: 950px;
+    border-collapse: collapse;
+}
+
+.tire-table th {
+    padding: 13px 14px;
+    background: #181818;
+    border-bottom: 1px solid #333333;
+    color: #777777;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tire-table td {
+    padding: 15px 14px;
+    border-bottom: 1px solid #242424;
+    color: #bbbbbb;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.tire-row {
+    transition: 0.15s;
+}
+
+.tire-row:hover {
+    background: #191919;
+}
+
+.tire-row:last-child td {
+    border-bottom: none;
+}
+
+.barcode-link {
+    color: #ffffff;
+    font-family: Consolas, monospace;
+    font-weight: 700;
+}
+
+.barcode-link:hover {
+    color: #e30613;
+}
+
+.shift-badge {
+    display: inline-block;
+    padding: 5px 8px;
+    background: #191919;
+    border: 1px solid #383838;
+    border-radius: 4px;
+    color: #aaaaaa;
+    font-size: 10px;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.status.building {
+    background: #202020;
+    border: 1px solid #383838;
+    color: #aaaaaa;
+}
+
+.status.curing {
+    background: #211d0c;
+    border: 1px solid #5b511d;
+    color: #d9c45c;
+}
+
+.status.completed {
+    background: #102016;
+    border: 1px solid #245c31;
+    color: #6dd481;
+}
+
+.view-button {
+    color: #e30613;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.view-button:hover {
+    color: #ff555f;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty-state {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    margin-bottom: 10px;
+    color: #555555;
+    font-size: 30px;
+}
+
+.empty-state h3 {
+    margin: 0 0 8px;
+    color: #dddddd;
+    font-size: 18px;
+}
+
+.empty-state p {
+    margin: 0 0 20px;
+    color: #777777;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.result-section {
+    margin-top: 30px;
+    padding: 30px;
+    background: #111111;
+    border: 1px solid #292929;
+    border-radius: 8px;
+}
+
+.result-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #292929;
+}
+
+.result-header h2 {
+    margin: 7px 0 0;
+    color: #ffffff;
+    font-size: 25px;
+}
+
+.barcode-display {
+    padding: 9px 13px;
+    background: #181818;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    color: #ffffff;
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+.timeline {
+    padding-top: 30px;
+}
+
+.timeline-item {
+    position: relative;
+    display: flex;
+    gap: 20px;
+    padding-bottom: 30px;
+}
+
+.timeline-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 17px;
+    top: 38px;
+    bottom: 0;
+    width: 2px;
+    background: #333333;
+}
+
+.timeline-item.completed:not(:last-child)::after {
+    background: #e30613;
+}
+
+.timeline-marker {
+    position: relative;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #e30613;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.pending .timeline-marker {
+    background: #292929;
+    border: 1px solid #3a3a3a;
+    color: #777777;
+}
+
+.timeline-content {
+    flex: 1;
+    padding: 22px;
+    background: #151515;
+    border: 1px solid #292929;
+    border-radius: 7px;
+}
+
+.timeline-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.process-label {
+    color: #e30613;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.timeline-header h3 {
+    margin: 5px 0 0;
+    color: #ffffff;
+    font-size: 21px;
+}
+
+.status-badge,
+.pending-badge {
+    padding: 6px 9px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.status-badge {
+    background: #102016;
+    border: 1px solid #245c31;
+    color: #6dd481;
+}
+
+.pending-badge {
+    background: #202020;
+    border: 1px solid #333333;
+    color: #777777;
+}
+
+
+/* =========================================================
+   INFO GRID
+========================================================= */
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #292929;
+    border: 1px solid #292929;
+}
+
+.info-item {
+    padding: 14px;
+    background: #181818;
+}
+
+.info-item span {
+    display: block;
+    margin-bottom: 6px;
+    color: #777777;
+    font-size: 11px;
+}
+
+.info-item strong {
+    display: block;
+    color: #eeeeee;
+    font-size: 13px;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   INSPECTION
+========================================================= */
+
+.inspection-status {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid #292929;
+}
+
+.status-title {
+    margin-bottom: 10px;
+    color: #777777;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.result-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.result-badge {
+    padding: 7px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.result-badge.rework {
+    background: #28200c;
+    border: 1px solid #66551f;
+    color: #e5c65c;
+}
+
+.result-badge.strap {
+    background: #281010;
+    border: 1px solid #6b2929;
+    color: #ff7777;
+}
+
+.result-badge.hold {
+    background: #202020;
+    border: 1px solid #3a3a3a;
+    color: #aaaaaa;
+}
+
+.result-badge.normal {
+    background: #102016;
+    border: 1px solid #245c31;
+    color: #6dd481;
+}
+
+.pending-text {
+    margin: 0;
+    color: #777777;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@@media (max-width: 1000px) {
+
+    .tracking-page {
+        padding: 30px 25px 50px;
+    }
+
+    .daisha-search-card {
+        align-items: flex-start;
+    }
+
+    .daisha-search-action {
+        margin-top: 5px;
+    }
+
+    .filter-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filter-actions {
+        grid-column: 1 / -1;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+
+@@media (max-width: 700px) {
+
+    .tracking-page {
+        padding: 25px 18px 40px;
+    }
+
+    .page-header {
+        flex-direction: column;
+    }
+
+    .daisha-search-card {
+        flex-direction: column;
+    }
+
+    .daisha-search-content {
+        width: 100%;
+    }
+
+    .daisha-search-row {
+        flex-direction: column;
+    }
+
+    .daisha-search-button {
+        width: 100%;
+    }
+
+    .daisha-search-action {
+        width: 100%;
+    }
+
+    .daisha-list-button {
+        width: 100%;
+    }
+
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-actions {
+        grid-column: auto;
+        width: 100%;
+    }
+
+    .filter-button,
+    .filter-actions .reset-button {
+        flex: 1;
+    }
+
+    .summary-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .history-card,
+    .filter-card,
+    .result-section {
+        padding: 20px;
+    }
+
+    .result-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .timeline-item {
+        gap: 12px;
+    }
+
+    .timeline-content {
+        padding: 17px;
+    }
+
+    .timeline-header {
+        flex-direction: column;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>

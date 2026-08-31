@@ -1,0 +1,1688 @@
+@page
+
+@model TireTraceabilityDemo.Pages.Daisha.CreateModel
+
+@{
+    ViewData["Title"] = "Create Daisha";
+}
+
+<div class="daisha-shell">
+
+    <!-- ========================================================= -->
+    <!-- SIDEBAR -->
+    <!-- ========================================================= -->
+
+    <aside class="sidebar">
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                B
+            </div>
+
+            <div>
+
+                <div class="brand-title">
+                    TIRE
+                </div>
+
+                <div class="brand-subtitle">
+                    TRACEABILITY
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATION -->
+
+        <div class="station-box">
+
+            <div class="station-label">
+                TRACEABILITY
+            </div>
+
+            <div class="station-name">
+                DAISHA
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <div class="menu-label">
+            DAISHA
+        </div>
+
+        <nav class="menu">
+
+            <a href="/Daisha"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                <span>
+                    Daisha List
+                </span>
+
+            </a>
+
+
+            <a href="/Daisha/Create"
+               class="menu-item active">
+
+                <span class="menu-icon">
+                    +
+                </span>
+
+                <span>
+                    Create Daisha
+                </span>
+
+            </a>
+
+
+            <a href="/Dashboard"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    ◉
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="system-card">
+
+                <div class="system-dot"></div>
+
+                <div>
+
+                    <strong>
+                        System Online
+                    </strong>
+
+                    <small>
+                        Daisha Management
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="version">
+
+                Tire Traceability Demo
+                <br />
+
+                © 2026
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ========================================================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ========================================================= -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <div class="eyebrow">
+                    TRACEABILITY MANAGEMENT
+                </div>
+
+                <h1>
+                    Create Daisha
+                </h1>
+
+                <p>
+                    Buat grouping tire untuk proses pemindahan
+                    dari Building menuju Curing menggunakan forklift.
+                </p>
+
+            </div>
+
+
+            <a href="/Daisha"
+               class="back-button">
+
+                ← Back to Daisha
+
+            </a>
+
+        </header>
+
+
+        <!-- ERROR -->
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert error">
+
+                <span class="alert-icon">
+                    !
+                </span>
+
+                <span>
+                    @TempData["Error"]
+                </span>
+
+            </div>
+        }
+
+
+        <!-- SUCCESS -->
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert success">
+
+                <span class="alert-icon">
+                    ✓
+                </span>
+
+                <span>
+                    @TempData["Success"]
+                </span>
+
+            </div>
+        }
+
+
+        <!-- ===================================================== -->
+        <!-- CREATE DAISHA -->
+        <!-- ===================================================== -->
+
+        <section class="create-card">
+
+
+            <!-- CARD HEADER -->
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="section-label">
+                        DAISHA REGISTRATION
+                    </div>
+
+                    <h2>
+                        New Daisha
+                    </h2>
+
+                    <p>
+                        Tentukan jumlah tire yang akan dikelompokkan
+                        ke dalam satu Daisha.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- INFORMATION -->
+            <!-- ================================================= -->
+
+            <div class="information-card">
+
+                <div class="information-icon">
+                    i
+                </div>
+
+                <div>
+
+                    <strong>
+                        Apa itu Daisha?
+                    </strong>
+
+                    <p>
+                        Daisha merupakan grouping/container yang berisi
+                        beberapa tire dari proses Building sebelum
+                        dipindahkan menuju Curing.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- FORM -->
+            <!-- ================================================= -->
+
+            <form method="post">
+
+
+                <!-- ================================================= -->
+                <!-- DAISHA ID -->
+                <!-- ================================================= -->
+
+                <div class="form-section">
+
+                    <div class="section-title">
+                        DAISHA IDENTIFICATION
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Daisha ID
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               value="AUTO GENERATED"
+                               readonly />
+
+                        <small class="field-description">
+
+                            ID Daisha akan dibuat otomatis oleh sistem.
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- COMPUTER -->
+                <!-- ================================================= -->
+
+                <div class="form-section">
+
+                    <div class="section-title">
+                        PRODUCTION INFORMATION
+                    </div>
+
+
+                    <div class="info-grid">
+
+
+                        <!-- COMPUTER -->
+
+                        <div class="info-box">
+
+                            <span class="info-label">
+                                COMPUTER
+                            </span>
+
+                            <strong>
+                                @Environment.MachineName
+                            </strong>
+
+                            <small>
+                                Computer yang membuat Daisha
+                            </small>
+
+                        </div>
+
+
+                        <!-- OPERATOR -->
+
+                        <div class="info-box">
+
+                            <span class="info-label">
+                                OPERATOR
+                            </span>
+
+                            <strong>
+                                Operator
+                            </strong>
+
+                            <small>
+                                Operator yang sedang login
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- TIRE COUNT -->
+                <!-- ================================================= -->
+
+                <div class="form-section">
+
+                    <div class="section-title">
+                        TIRE GROUPING
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Number of Tires
+                        </label>
+
+                        <select class="form-control"
+                                name="TireCount"
+                                required>
+
+                            <option value="">
+                                Select Tire Quantity
+                            </option>
+
+                            <option value="4">
+                                4 Tires
+                            </option>
+
+                            <option value="6">
+                                6 Tires
+                            </option>
+
+                            <option value="8">
+                                8 Tires
+                            </option>
+
+                            <option value="10">
+                                10 Tires
+                            </option>
+
+                            <option value="12">
+                                12 Tires
+                            </option>
+
+                            <option value="14">
+                                14 Tires
+                            </option>
+
+                            <option value="16">
+                                16 Tires
+                            </option>
+
+                        </select>
+
+
+                        <small class="field-description">
+
+                            Pilih jumlah tire yang akan ditempatkan
+                            pada satu Daisha.
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- PROCESS FLOW -->
+                <!-- ================================================= -->
+
+                <div class="flow-card">
+
+
+                    <div class="flow-item active">
+
+                        <div class="flow-number">
+                            01
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Building
+                            </strong>
+
+                            <small>
+                                Tire dibuat
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="flow-arrow">
+                        →
+                    </div>
+
+
+                    <div class="flow-item active">
+
+                        <div class="flow-number">
+                            02
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Daisha
+                            </strong>
+
+                            <small>
+                                Tire dikelompokkan
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="flow-arrow">
+                        →
+                    </div>
+
+
+                    <div class="flow-item">
+
+                        <div class="flow-number">
+                            03
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Curing
+                            </strong>
+
+                            <small>
+                                Dibawa forklift
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- BUTTONS -->
+                <!-- ================================================= -->
+
+                <div class="form-actions">
+
+                    <a href="/Daisha"
+                       class="btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="btn-primary">
+
+                        <span>
+                            CREATE DAISHA
+                        </span>
+
+                        <span class="button-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </section>
+
+
+        <!-- ===================================================== -->
+        <!-- INFORMATION -->
+        <!-- ===================================================== -->
+
+        <section class="info-card">
+
+            <div class="info-icon">
+                QR
+            </div>
+
+            <div>
+
+                <strong>
+                    Daisha QR Code
+                </strong>
+
+                <p>
+                    Setelah Daisha dibuat, sistem akan menghasilkan
+                    satu QR Code yang mewakili seluruh tire di dalam
+                    Daisha. QR tersebut nantinya dapat dipindai untuk
+                    menampilkan informasi seluruh tire yang dibawa
+                    oleh Daisha.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    background: #090909;
+    color: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   SHELL
+========================================================= */
+
+.daisha-shell {
+    display: flex;
+    min-height: 100vh;
+
+    background: #090909;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 270px;
+    height: 100vh;
+
+    padding: 28px 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #111111;
+
+    border-right: 1px solid #292929;
+}
+
+
+.brand {
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 5px 10px 30px;
+
+    border-bottom: 1px solid #292929;
+}
+
+
+.brand-mark {
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e30613;
+
+    border-radius: 6px;
+
+    font-size: 23px;
+    font-weight: 800;
+}
+
+
+.brand-title {
+
+    font-size: 19px;
+    font-weight: 800;
+
+    letter-spacing: 3px;
+}
+
+
+.brand-subtitle {
+
+    margin-top: 3px;
+
+    color: #777777;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   STATION
+========================================================= */
+
+.station-box {
+
+    margin-top: 25px;
+
+    padding: 15px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+
+.station-label {
+
+    color: #777777;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.station-name {
+
+    margin-top: 7px;
+
+    color: #e30613;
+
+    font-size: 18px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.menu-label {
+
+    margin: 32px 12px 12px;
+
+    color: #555555;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.menu {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.menu-item {
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 14px;
+
+    color: #999999;
+
+    border-radius: 6px;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+
+.menu-item:hover {
+
+    color: #ffffff;
+
+    background: #1c1c1c;
+}
+
+
+.menu-item.active {
+
+    color: #ffffff;
+
+    background: #e30613;
+}
+
+
+.menu-icon {
+
+    width: 24px;
+
+    text-align: center;
+
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM
+========================================================= */
+
+.sidebar-bottom {
+
+    margin-top: auto;
+}
+
+
+.system-card {
+
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 14px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+
+.system-dot {
+
+    width: 8px;
+    height: 8px;
+
+    flex-shrink: 0;
+
+    background: #36c85f;
+
+    border-radius: 50%;
+}
+
+
+.system-card strong {
+
+    display: block;
+
+    font-size: 12px;
+}
+
+
+.system-card small {
+
+    display: block;
+
+    margin-top: 4px;
+
+    color: #666666;
+
+    font-size: 10px;
+}
+
+
+.version {
+
+    margin-top: 18px;
+
+    color: #444444;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main-content {
+
+    width: calc(100% - 270px);
+
+    margin-left: 270px;
+
+    padding: 48px 55px 70px;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 30px;
+
+    margin-bottom: 35px;
+}
+
+
+.eyebrow,
+.section-label {
+
+    color: #e30613;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.topbar h1 {
+
+    margin: 9px 0 8px;
+
+    font-size: 40px;
+
+    line-height: 1.1;
+}
+
+
+.topbar p {
+
+    margin: 0;
+
+    max-width: 760px;
+
+    color: #888888;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
+
+
+.back-button {
+
+    padding: 11px 16px;
+
+    background: #171717;
+
+    border: 1px solid #333333;
+
+    border-radius: 5px;
+
+    color: #cccccc;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+
+.back-button:hover {
+
+    color: #ffffff;
+
+    border-color: #e30613;
+}
+
+
+/* =========================================================
+   ALERT
+========================================================= */
+
+.alert {
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+
+    padding: 15px 18px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+}
+
+
+.alert-icon {
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-weight: 800;
+}
+
+
+.alert.error {
+
+    background: #2b1012;
+
+    border: 1px solid #5d1c20;
+
+    color: #ff7079;
+}
+
+
+.alert.success {
+
+    background: #0d2416;
+
+    border: 1px solid #174d29;
+
+    color: #69dc8b;
+}
+
+
+/* =========================================================
+   CREATE CARD
+========================================================= */
+
+.create-card {
+
+    padding: 30px;
+
+    background: #121212;
+
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+}
+
+
+.card-header {
+
+    margin-bottom: 28px;
+}
+
+
+.card-header h2 {
+
+    margin: 7px 0 7px;
+
+    font-size: 28px;
+}
+
+
+.card-header p {
+
+    margin: 0;
+
+    color: #777777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   INFORMATION
+========================================================= */
+
+.information-card {
+
+    display: flex;
+
+    gap: 14px;
+
+    margin-bottom: 30px;
+
+    padding: 17px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+
+.information-icon {
+
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 50%;
+
+    color: #e30613;
+
+    font-weight: 800;
+}
+
+
+.information-card strong {
+
+    display: block;
+
+    font-size: 13px;
+}
+
+
+.information-card p {
+
+    margin: 6px 0 0;
+
+    color: #777777;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FORM SECTION
+========================================================= */
+
+.form-section {
+
+    margin-top: 30px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #292929;
+}
+
+
+.section-title {
+
+    margin-bottom: 20px;
+
+    color: #e30613;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.8px;
+}
+
+
+.form-group {
+
+    margin-bottom: 20px;
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #aaaaaa;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+.form-control {
+
+    width: 100%;
+
+    padding: 14px 15px;
+
+    background: #0b0b0b;
+
+    border: 1px solid #333333;
+
+    border-radius: 5px;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+
+.form-control:focus {
+
+    border-color: #e30613;
+
+    box-shadow:
+        0 0 0 2px rgba(227, 6, 19, 0.1);
+}
+
+
+select.form-control {
+
+    cursor: pointer;
+}
+
+
+select.form-control option {
+
+    background: #181818;
+
+    color: #ffffff;
+}
+
+
+.field-description {
+
+    display: block;
+
+    margin-top: 7px;
+
+    color: #666666;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   INFO GRID
+========================================================= */
+
+.info-grid {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+
+.info-box {
+
+    padding: 16px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 6px;
+}
+
+
+.info-label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #555555;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+}
+
+
+.info-box strong {
+
+    display: block;
+
+    color: #eeeeee;
+
+    font-size: 14px;
+
+    word-break: break-word;
+}
+
+
+.info-box small {
+
+    display: block;
+
+    margin-top: 6px;
+
+    color: #666666;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   FLOW
+========================================================= */
+
+.flow-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 28px;
+
+    padding: 15px;
+
+    background: #0e0e0e;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+
+.flow-item {
+
+    flex: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 13px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 5px;
+}
+
+
+.flow-item.active {
+
+    border-color: #46171b;
+}
+
+
+.flow-number {
+
+    color: #e30613;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.flow-item strong {
+
+    display: block;
+
+    color: #dddddd;
+
+    font-size: 11px;
+}
+
+
+.flow-item small {
+
+    display: block;
+
+    margin-top: 4px;
+
+    color: #666666;
+
+    font-size: 9px;
+}
+
+
+.flow-arrow {
+
+    color: #555555;
+
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.form-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 30px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #292929;
+}
+
+
+.btn-secondary {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 13px 20px;
+
+    background: #1b1b1b;
+
+    border: 1px solid #333333;
+
+    border-radius: 5px;
+
+    color: #aaaaaa;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.btn-secondary:hover {
+
+    color: #ffffff;
+
+    border-color: #666666;
+}
+
+
+.btn-primary {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    min-width: 175px;
+
+    padding: 13px 18px;
+
+    background: #e30613;
+
+    border: 1px solid #e30613;
+
+    border-radius: 5px;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.btn-primary:hover {
+
+    background: #c90511;
+
+    border-color: #c90511;
+}
+
+
+.button-arrow {
+
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   BOTTOM INFO
+========================================================= */
+
+.info-card {
+
+    display: flex;
+
+    gap: 14px;
+
+    margin-top: 25px;
+
+    padding: 20px;
+
+    background: #111111;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+
+.info-icon {
+
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 6px;
+
+    color: #e30613;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+.info-card strong {
+
+    display: block;
+
+    font-size: 13px;
+}
+
+
+.info-card p {
+
+    margin: 7px 0 0;
+
+    color: #777777;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@@media (max-width: 900px) {
+
+    .sidebar {
+
+        width: 220px;
+    }
+
+    .main-content {
+
+        width: calc(100% - 220px);
+
+        margin-left: 220px;
+
+        padding: 35px 25px;
+    }
+
+    .topbar {
+
+        flex-direction: column;
+    }
+
+    .info-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .flow-card {
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .flow-arrow {
+
+        text-align: center;
+    }
+}
+
+
+@@media (max-width: 700px) {
+
+    .sidebar {
+
+        width: 70px;
+
+        padding: 20px 8px;
+    }
+
+    .brand {
+
+        justify-content: center;
+
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .brand > div:last-child,
+    .station-box,
+    .menu-label,
+    .menu-item span:last-child,
+    .system-card div:last-child,
+    .version {
+
+        display: none;
+    }
+
+    .menu-item {
+
+        justify-content: center;
+    }
+
+    .main-content {
+
+        width: calc(100% - 70px);
+
+        margin-left: 70px;
+
+        padding: 30px 15px;
+    }
+
+    .topbar h1 {
+
+        font-size: 30px;
+    }
+
+    .create-card {
+
+        padding: 22px;
+    }
+
+    .form-actions {
+
+        flex-direction: column;
+    }
+
+    .btn-secondary,
+    .btn-primary {
+
+        width: 100%;
+    }
+}
+
+</style>

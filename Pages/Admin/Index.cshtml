@@ -1,0 +1,1198 @@
+@page
+@model TireTraceabilityDemo.Pages.Admin.IndexModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        background: #090909;
+        color: #ffffff;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+
+    /* =========================
+       APP
+       ========================= */
+
+    .app-shell {
+        display: flex;
+        min-height: 100vh;
+        background: #090909;
+    }
+
+
+    /* =========================
+       SIDEBAR
+       ========================= */
+
+    .sidebar {
+        position: fixed;
+
+        top: 0;
+        left: 0;
+
+        width: 270px;
+        height: 100vh;
+
+        padding: 28px 20px;
+
+        display: flex;
+        flex-direction: column;
+
+        background: #111111;
+
+        border-right: 1px solid #292929;
+    }
+
+
+    .brand {
+        display: flex;
+        align-items: center;
+
+        gap: 14px;
+
+        padding: 5px 10px 30px;
+
+        border-bottom: 1px solid #292929;
+    }
+
+
+    .brand-mark {
+        width: 46px;
+        height: 46px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #e30613;
+
+        border-radius: 6px;
+
+        font-size: 23px;
+        font-weight: 800;
+    }
+
+
+    .brand-title {
+        font-size: 19px;
+        font-weight: 800;
+
+        letter-spacing: 3px;
+    }
+
+
+    .brand-subtitle {
+        margin-top: 3px;
+
+        color: #777777;
+
+        font-size: 10px;
+
+        letter-spacing: 2px;
+    }
+
+
+    .menu-label {
+        margin: 34px 12px 12px;
+
+        color: #555555;
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+        letter-spacing: 2px;
+    }
+
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+
+        gap: 6px;
+    }
+
+
+    .menu-item {
+        display: flex;
+        align-items: center;
+
+        gap: 14px;
+
+        padding: 14px;
+
+        color: #999999;
+
+        border-radius: 6px;
+
+        font-size: 15px;
+        font-weight: 500;
+
+        transition: 0.2s;
+    }
+
+
+    .menu-item:hover {
+        color: #ffffff;
+
+        background: #1c1c1c;
+    }
+
+
+    .menu-item.active {
+        color: #ffffff;
+
+        background: #e30613;
+    }
+
+
+    .menu-icon {
+        width: 24px;
+
+        text-align: center;
+
+        font-size: 18px;
+    }
+
+
+    .sidebar-bottom {
+        margin-top: auto;
+    }
+
+
+    .system-box {
+        display: flex;
+        align-items: center;
+
+        gap: 11px;
+
+        padding: 15px;
+
+        background: #181818;
+
+        border: 1px solid #292929;
+
+        border-radius: 7px;
+    }
+
+
+    .online-dot {
+        width: 8px;
+        height: 8px;
+
+        flex-shrink: 0;
+
+        background: #36c85f;
+
+        border-radius: 50%;
+    }
+
+
+    .system-box strong {
+        display: block;
+
+        font-size: 13px;
+    }
+
+
+    .system-box small {
+        display: block;
+
+        margin-top: 4px;
+
+        color: #666666;
+
+        font-size: 10px;
+    }
+
+
+    .version {
+        margin-top: 18px;
+
+        color: #444444;
+
+        font-size: 10px;
+
+        line-height: 1.6;
+
+        text-align: center;
+    }
+
+
+    /* =========================
+       MAIN
+       ========================= */
+
+    .main-content {
+        width: calc(100% - 270px);
+
+        margin-left: 270px;
+
+        padding: 48px 55px 70px;
+    }
+
+
+    .topbar {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: flex-start;
+
+        margin-bottom: 38px;
+    }
+
+
+    .eyebrow {
+        color: #e30613;
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+        letter-spacing: 2px;
+    }
+
+
+    .topbar h1 {
+        margin: 9px 0 8px;
+
+        font-size: 42px;
+
+        line-height: 1.1;
+
+        font-weight: 800;
+    }
+
+
+    .topbar p {
+        margin: 0;
+
+        color: #999999;
+
+        font-size: 16px;
+    }
+
+
+    .admin-badge {
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        padding: 11px 16px;
+
+        background: #181818;
+
+        border: 1px solid #292929;
+
+        border-radius: 6px;
+
+        color: #cccccc;
+
+        font-size: 12px;
+
+        font-weight: 700;
+    }
+
+
+    .admin-dot {
+        width: 8px;
+        height: 8px;
+
+        background: #e30613;
+
+        border-radius: 50%;
+    }
+
+
+    /* =========================
+       HERO
+       ========================= */
+
+    .admin-hero {
+        position: relative;
+
+        min-height: 230px;
+
+        display: flex;
+
+        align-items: center;
+
+        padding: 40px;
+
+        overflow: hidden;
+
+        background:
+            linear-gradient(
+                105deg,
+                #1b0809,
+                #120d0d 55%,
+                #151515
+            );
+
+        border: 1px solid #3a191b;
+
+        border-radius: 9px;
+    }
+
+
+    .hero-content {
+        position: relative;
+
+        z-index: 2;
+
+        max-width: 650px;
+    }
+
+
+    .hero-label {
+        color: #e30613;
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+        letter-spacing: 2px;
+    }
+
+
+    .admin-hero h2 {
+        margin: 12px 0 14px;
+
+        font-size: 34px;
+
+        line-height: 1.15;
+
+        font-weight: 800;
+
+        text-transform: uppercase;
+    }
+
+
+    .admin-hero p {
+        margin: 0;
+
+        color: #aaaaaa;
+
+        font-size: 15px;
+
+        line-height: 1.7;
+    }
+
+
+    .hero-pattern {
+        position: absolute;
+
+        right: 45px;
+
+        width: 280px;
+        height: 280px;
+    }
+
+
+    .hero-circle {
+        position: absolute;
+
+        top: 5px;
+        right: 0;
+
+        width: 250px;
+        height: 250px;
+
+        border: 30px solid rgba(227, 6, 19, 0.12);
+
+        border-radius: 50%;
+    }
+
+
+    .hero-circle.second {
+        top: 60px;
+        right: 55px;
+
+        width: 140px;
+        height: 140px;
+
+        border-width: 18px;
+
+        border-color: rgba(227, 6, 19, 0.18);
+    }
+
+
+    /* =========================
+       SECTION
+       ========================= */
+
+    .section {
+        margin-top: 42px;
+    }
+
+
+    .section-label {
+        color: #e30613;
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+        letter-spacing: 2px;
+    }
+
+
+    .section-title {
+        margin: 7px 0 22px;
+
+        font-size: 25px;
+
+        font-weight: 700;
+    }
+
+
+    /* =========================
+       MANAGEMENT CARDS
+       ========================= */
+
+    .management-grid {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 20px;
+    }
+
+
+    .management-card {
+        position: relative;
+
+        padding: 28px;
+
+        background: #121212;
+
+        border: 1px solid #292929;
+
+        border-radius: 8px;
+
+        transition: 0.2s;
+    }
+
+
+    .management-card:hover {
+        border-color: #e30613;
+
+        transform: translateY(-3px);
+    }
+
+
+    .card-number {
+        position: absolute;
+
+        top: 22px;
+        right: 22px;
+
+        color: #333333;
+
+        font-size: 13px;
+
+        font-weight: 700;
+    }
+
+
+    .management-icon {
+        width: 52px;
+        height: 52px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: 22px;
+
+        background: #e30613;
+
+        border-radius: 6px;
+
+        font-size: 22px;
+    }
+
+
+    .card-tag {
+        color: #e30613;
+
+        font-size: 10px;
+
+        font-weight: 700;
+
+        letter-spacing: 1.5px;
+    }
+
+
+    .management-card h3 {
+        margin: 8px 0 12px;
+
+        font-size: 24px;
+
+        font-weight: 700;
+    }
+
+
+    .management-card p {
+        min-height: 65px;
+
+        margin: 0;
+
+        color: #999999;
+
+        font-size: 14px;
+
+        line-height: 1.7;
+    }
+
+
+    .card-link {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: center;
+
+        margin-top: 24px;
+
+        padding-top: 16px;
+
+        border-top: 1px solid #292929;
+
+        color: #dddddd;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        letter-spacing: 1px;
+    }
+
+
+    .card-link span:last-child {
+        color: #e30613;
+
+        font-size: 19px;
+    }
+
+
+    /* =========================
+       QUICK INFO
+       ========================= */
+
+    .info-grid {
+        display: grid;
+
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 15px;
+    }
+
+
+    .info-card {
+        padding: 22px;
+
+        background: #111111;
+
+        border: 1px solid #292929;
+
+        border-radius: 7px;
+    }
+
+
+    .info-number {
+        color: #ffffff;
+
+        font-size: 28px;
+
+        font-weight: 800;
+    }
+
+
+    .info-title {
+        margin-top: 7px;
+
+        color: #888888;
+
+        font-size: 12px;
+
+        text-transform: uppercase;
+
+        letter-spacing: 1px;
+    }
+
+
+    /* =========================
+       BACK
+       ========================= */
+
+    .back-section {
+        margin-top: 35px;
+    }
+
+
+    .back-button {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        padding: 12px 17px;
+
+        background: #181818;
+
+        border: 1px solid #292929;
+
+        border-radius: 6px;
+
+        color: #999999;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        transition: 0.2s;
+    }
+
+
+    .back-button:hover {
+        color: #ffffff;
+
+        border-color: #e30613;
+    }
+
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+
+    @@media (max-width: 1000px) {
+
+        .management-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-pattern {
+            opacity: 0.35;
+        }
+
+    }
+
+
+    @@media (max-width: 750px) {
+
+        .sidebar {
+            width: 75px;
+
+            padding: 20px 10px;
+        }
+
+        .brand {
+            justify-content: center;
+
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .brand > div:last-child,
+        .menu-label,
+        .menu-item span:last-child,
+        .system-box div,
+        .version {
+            display: none;
+        }
+
+        .menu-item {
+            justify-content: center;
+        }
+
+        .main-content {
+            width: calc(100% - 75px);
+
+            margin-left: 75px;
+
+            padding: 30px 20px;
+        }
+
+        .topbar {
+            flex-direction: column;
+
+            gap: 20px;
+        }
+
+        .topbar h1 {
+            font-size: 34px;
+        }
+
+        .admin-hero {
+            padding: 30px;
+        }
+
+        .admin-hero h2 {
+            font-size: 28px;
+        }
+
+    }
+
+</style>
+
+
+<div class="app-shell">
+
+
+    <!-- ==========================================
+         SIDEBAR
+         ========================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                B
+            </div>
+
+            <div>
+
+                <div class="brand-title">
+                    TIRE
+                </div>
+
+                <div class="brand-subtitle">
+                    TRACEABILITY
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="menu-label">
+            ADMINISTRATION
+        </div>
+
+
+        <nav class="menu">
+
+
+            <a href="/Admin" class="menu-item active">
+
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                <span>
+                    Admin Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="/Admin/Operators" class="menu-item">
+
+                <span class="menu-icon">
+                    ♟
+                </span>
+
+                <span>
+                    Operators
+                </span>
+
+            </a>
+
+
+            <a href="/Admin/Dropdowns" class="menu-item">
+
+                <span class="menu-icon">
+                    ☷
+                </span>
+
+                <span>
+                    Dropdown Master
+                </span>
+
+            </a>
+
+
+            <a href="/Dashboard" class="menu-item">
+
+                <span class="menu-icon">
+                    ←
+                </span>
+
+                <span>
+                    Main Dashboard
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+
+            <div class="system-box">
+
+                <span class="online-dot"></span>
+
+                <div>
+
+                    <strong>
+                        System Online
+                    </strong>
+
+                    <small>
+                        MySQL Connected
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="version">
+
+                Tire Traceability Demo
+                <br />
+
+                Admin Panel © 2026
+
+            </div>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+         ========================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+
+            <div>
+
+                <div class="eyebrow">
+                    SYSTEM ADMINISTRATION
+                </div>
+
+                <h1>
+                    Admin Dashboard
+                </h1>
+
+                <p>
+                    Pengelolaan akun operator dan master data sistem.
+                </p>
+
+            </div>
+
+
+            <div class="admin-badge">
+
+                <span class="admin-dot"></span>
+
+                ADMIN MODE
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- ==========================================
+             HERO
+             ========================================== -->
+
+        <section class="admin-hero">
+
+
+            <div class="hero-content">
+
+
+                <div class="hero-label">
+                    ADMINISTRATION PANEL
+                </div>
+
+
+                <h2>
+                    Manage The System.
+                    <br />
+                    Control The Data.
+                </h2>
+
+
+                <p>
+                    Kelola akun operator, role pengguna, dan
+                    pilihan master data yang digunakan pada
+                    proses traceability produksi ban.
+                </p>
+
+
+            </div>
+
+
+            <div class="hero-pattern">
+
+                <div class="hero-circle"></div>
+
+                <div class="hero-circle second"></div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==========================================
+             MANAGEMENT
+             ========================================== -->
+
+        <section class="section">
+
+
+            <div class="section-label">
+                SYSTEM MANAGEMENT
+            </div>
+
+
+            <h2 class="section-title">
+                Administration
+            </h2>
+
+
+            <div class="management-grid">
+
+
+                <!-- OPERATOR -->
+
+                <a href="/Admin/Operators"
+                   class="management-card">
+
+
+                    <div class="card-number">
+                        01
+                    </div>
+
+
+                    <div class="management-icon">
+                        ♟
+                    </div>
+
+
+                    <div class="card-tag">
+                        USER MANAGEMENT
+                    </div>
+
+
+                    <h3>
+                        Operator Management
+                    </h3>
+
+
+                    <p>
+                        Kelola akun operator yang dapat
+                        melakukan login pada station Building,
+                        Curing, dan Final Inspection.
+                    </p>
+
+
+                    <div class="card-link">
+
+                        <span>
+                            Manage Operators
+                        </span>
+
+                        <span>
+                            →
+                        </span>
+
+                    </div>
+
+
+                </a>
+
+
+
+                <!-- DROPDOWN -->
+
+                <a href="/Admin/Dropdowns"
+                   class="management-card">
+
+
+                    <div class="card-number">
+                        02
+                    </div>
+
+
+                    <div class="management-icon">
+                        ☷
+                    </div>
+
+
+                    <div class="card-tag">
+                        MASTER DATA
+                    </div>
+
+
+                    <h3>
+                        Dropdown Management
+                    </h3>
+
+
+                    <p>
+                        Kelola pilihan dropdown yang digunakan
+                        sistem seperti Tire Size dan master data
+                        lainnya.
+                    </p>
+
+
+                    <div class="card-link">
+
+                        <span>
+                            Manage Dropdowns
+                        </span>
+
+                        <span>
+                            →
+                        </span>
+
+                    </div>
+
+
+                </a>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==========================================
+             SYSTEM INFORMATION
+             ========================================== -->
+
+        <section class="section">
+
+
+            <div class="section-label">
+                SYSTEM INFORMATION
+            </div>
+
+
+            <h2 class="section-title">
+                Current Configuration
+            </h2>
+
+
+            <div class="info-grid">
+
+
+                <div class="info-card">
+
+                    <div class="info-number">
+                        45
+                    </div>
+
+                    <div class="info-title">
+                        Building Machines
+                    </div>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="info-number">
+                        90
+                    </div>
+
+                    <div class="info-title">
+                        Curing Machines
+                    </div>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="info-number">
+                        15
+                    </div>
+
+                    <div class="info-title">
+                        Final Inspection
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==========================================
+             BACK
+             ========================================== -->
+
+        <div class="back-section">
+
+            <a href="/Dashboard"
+               class="back-button">
+
+                ← Back to Main Dashboard
+
+            </a>
+
+        </div>
+
+
+    </main>
+
+</div>

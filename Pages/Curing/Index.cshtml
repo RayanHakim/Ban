@@ -1,0 +1,2982 @@
+@page
+@model TireTraceabilityDemo.Pages.Curing.IndexModel
+
+@{
+    ViewData["Title"] = "Curing";
+}
+
+<div class="curing-page">
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <header class="page-header">
+
+        <div>
+
+            <div class="page-label">
+                PRODUCTION PROCESS
+            </div>
+
+            <h1>
+                Curing
+            </h1>
+
+            <p>
+                Scan QR Green Tire dan catat proses curing.
+            </p>
+
+        </div>
+
+        <a href="/Dashboard" class="back-button">
+            ← Dashboard
+        </a>
+
+    </header>
+
+
+    <!-- ===================================================== -->
+    <!-- MESSAGE -->
+    <!-- ===================================================== -->
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="message @(Model.IsSuccess ? "success" : "error")">
+
+            @Model.Message
+
+        </div>
+    }
+
+
+    <!-- ===================================================== -->
+    <!-- MAIN CONTENT -->
+    <!-- ===================================================== -->
+
+    <div class="content-grid">
+
+
+        <!-- ================================================= -->
+        <!-- LEFT CARD -->
+        <!-- ================================================= -->
+
+        <section class="form-card">
+
+            <div class="card-header">
+
+                <div class="card-label">
+                    CURING DATA
+                </div>
+
+                <h2>
+                    Input Curing
+                </h2>
+
+                <p class="description">
+                    Masukkan data proses curing berdasarkan QR Code
+                    Green Tire yang telah dibuat pada proses Building.
+                </p>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- QR SCANNER -->
+            <!-- ================================================= -->
+
+            <div class="scanner-section">
+
+                <div class="scanner-header">
+
+                    <div>
+
+                        <div class="scanner-title">
+                            QR CODE / BARCODE
+                        </div>
+
+                        <div class="scanner-description">
+                            Scan QR Code Green Tire menggunakan kamera laptop.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CAMERA -->
+
+                <div id="reader" class="qr-reader"></div>
+
+
+                <!-- START CAMERA -->
+
+                <button type="button"
+                        id="startScannerButton"
+                        class="scanner-button"
+                        onclick="startScanner()">
+
+                    <span>
+                        ◉
+                    </span>
+
+                    Buka Kamera Scanner
+
+                </button>
+
+
+                <!-- STOP CAMERA -->
+
+                <button type="button"
+                        id="stopScannerButton"
+                        class="scanner-button stop-button"
+                        onclick="stopScanner()"
+                        style="display:none;">
+
+                    <span>
+                        ■
+                    </span>
+
+                    Tutup Kamera
+
+                </button>
+
+
+                <div id="scannerStatus"
+                     class="scanner-status">
+
+                    Kamera belum aktif.
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- BARCODE MANUAL -->
+            <!-- ================================================= -->
+
+            <div class="form-group">
+
+                <label asp-for="Barcode">
+                    QR Code / Barcode
+                </label>
+
+                <div class="barcode-input-row">
+
+                    <input asp-for="Barcode"
+                           id="barcodeInput"
+                           class="form-control"
+                           placeholder="Scan atau masukkan barcode..."
+                           autocomplete="off" />
+
+                    <button type="button"
+                            class="search-button"
+                            onclick="findBuildingData()">
+
+                        Cari
+
+                    </button>
+
+                </div>
+
+                <small>
+                    QR dapat discan menggunakan kamera atau barcode
+                    dapat dimasukkan secara manual.
+                </small>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- BUILDING DATA -->
+            <!-- ================================================= -->
+
+            <div id="buildingData"
+                 class="building-data"
+                 style="display:none;">
+
+                <div class="building-data-header">
+
+                    <div>
+
+                        <div class="card-label">
+                            BUILDING DATA
+                        </div>
+
+                        <h3>
+                            Tire Information
+                        </h3>
+
+                    </div>
+
+                    <div class="process-badge">
+                        BUILDING
+                    </div>
+
+                </div>
+
+
+                <div class="data-grid">
+
+
+                    <!-- TIRE SIZE -->
+
+                    <div class="data-item">
+
+                        <span class="data-label">
+                            Tire Size
+                        </span>
+
+                        <strong id="dataTireSize">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <!-- BARCODE -->
+
+                    <div class="data-item">
+
+                        <span class="data-label">
+                            Barcode
+                        </span>
+
+                        <strong id="dataBarcode"
+                                class="barcode-text">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <!-- OPERATOR -->
+
+                    <div class="data-item">
+
+                        <span class="data-label">
+                            Operator Building
+                        </span>
+
+                        <strong id="dataOperator">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <!-- MACHINE -->
+
+                    <div class="data-item">
+
+                        <span class="data-label">
+                            Machine Number
+                        </span>
+
+                        <strong id="dataMachine">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <!-- SHIFT -->
+
+                    <div class="data-item">
+
+                        <span class="data-label">
+                            Shift
+                        </span>
+
+                        <strong id="dataShift">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <!-- TIME -->
+
+                    <div class="data-item">
+
+                        <span class="data-label">
+                            Building Time
+                        </span>
+
+                        <strong id="dataBuildingTime">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <!-- CURRENT PROCESS -->
+
+                    <div class="data-item full-width">
+
+                        <span class="data-label">
+                            Current Process
+                        </span>
+
+                        <strong id="dataProcess"
+                                class="process-text">
+                            BUILDING
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- CURING INPUT -->
+            <!-- ================================================= -->
+
+            <div id="curingInputSection"
+                 class="curing-input-section"
+                 style="display:none;">
+
+                <div class="section-divider">
+
+                    <span>
+                        CURING INFORMATION
+                    </span>
+
+                </div>
+
+
+                <!-- MOLD -->
+
+                <div class="form-group">
+
+                    <label asp-for="MoldNumber">
+                        Nomor Mold
+                    </label>
+
+                    <input asp-for="MoldNumber"
+                           id="moldInput"
+                           class="form-control"
+                           placeholder="Masukkan nomor mold" />
+
+                </div>
+
+
+                <!-- OPERATOR -->
+
+                <div class="form-group">
+
+                    <label asp-for="OperatorId">
+                        Operator
+                    </label>
+
+                    <input asp-for="OperatorId"
+                           id="operatorInput"
+                           class="form-control"
+                           placeholder="Masukkan nama / ID operator" />
+
+                </div>
+
+
+                <!-- SHIFT -->
+
+                <div class="form-group">
+
+                    <label asp-for="Shift">
+                        Shift
+                    </label>
+
+                    <select asp-for="Shift"
+                            id="shiftInput"
+                            class="form-control">
+
+                        <option value="">
+                            Pilih Shift
+                        </option>
+
+                        <option value="1">
+                            Shift 1
+                        </option>
+
+                        <option value="2">
+                            Shift 2
+                        </option>
+
+                        <option value="3">
+                            Shift 3
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button type="submit"
+                        form="curingForm"
+                        class="submit-button">
+
+                    <span>
+                        Simpan Data Curing
+                    </span>
+
+                    <span class="button-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- RIGHT INFORMATION CARD -->
+        <!-- ================================================= -->
+
+        <section class="info-card">
+
+            <div class="card-label">
+                TRACEABILITY FLOW
+            </div>
+
+            <h2>
+                Proses Produksi
+            </h2>
+
+            <p class="description">
+
+                QR Code yang dibuat pada proses Building
+                digunakan sebagai identitas tire sampai proses
+                Curing dan Final Inspection.
+
+            </p>
+
+
+            <!-- PROCESS FLOW -->
+
+            <div class="process">
+
+
+                <!-- BUILDING -->
+
+                <div class="process-item active">
+
+                    <div class="process-number">
+                        01
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Building
+                        </strong>
+
+                        <small>
+                            Generate QR Code
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="line"></div>
+
+
+                <!-- CURING -->
+
+                <div class="process-item active">
+
+                    <div class="process-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Curing
+                        </strong>
+
+                        <small>
+                            Scan QR + Mold
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="line"></div>
+
+
+                <!-- INSPECTION -->
+
+                <div class="process-item">
+
+                    <div class="process-number">
+                        03
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Final Inspection
+                        </strong>
+
+                        <small>
+                            Quality Check
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- INFO -->
+
+            <div class="scan-info">
+
+                <div class="scan-info-icon">
+                    QR
+                </div>
+
+                <div>
+
+                    <strong>
+                        QR Traceability
+                    </strong>
+
+                    <p>
+                        Scan QR Green Tire untuk mengambil
+                        data yang telah dibuat pada proses Building.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- TRACEABILITY CARD -->
+    <!-- ===================================================== -->
+
+    <section class="traceability-card">
+
+        <div class="traceability-header">
+
+            <div>
+
+                <div class="card-label">
+                    TRACEABILITY
+                </div>
+
+                <h2>
+                    Curing Process
+                </h2>
+
+            </div>
+
+            <div class="station-status">
+                CURING
+            </div>
+
+        </div>
+
+
+        <div class="traceability-flow">
+
+
+            <!-- BUILDING -->
+
+            <div class="trace-step active">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <div>
+
+                    <strong>
+                        Green Tire
+                    </strong>
+
+                    <small>
+                        QR Code identity
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="trace-line"></div>
+
+
+            <!-- CURING -->
+
+            <div class="trace-step active">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <div>
+
+                    <strong>
+                        Curing Machine
+                    </strong>
+
+                    <small>
+                        Mold & production process
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="trace-line"></div>
+
+
+            <!-- INSPECTION -->
+
+            <div class="trace-step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <div>
+
+                    <strong>
+                        Final Inspection
+                    </strong>
+
+                    <small>
+                        Quality verification
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- HIDDEN FORM UNTUK SUBMIT -->
+<!-- ========================================================= -->
+
+<form method="post"
+      id="curingForm">
+
+    <input type="hidden"
+           name="Barcode"
+           id="hiddenBarcode" />
+
+    <input type="hidden"
+           name="MoldNumber"
+           id="hiddenMold" />
+
+    <input type="hidden"
+           name="OperatorId"
+           id="hiddenOperator" />
+
+    <input type="hidden"
+           name="Shift"
+           id="hiddenShift" />
+
+</form>
+
+
+<!-- ========================================================= -->
+<!-- QR SCANNER LIBRARY -->
+<!-- ========================================================= -->
+
+<script src="https://unpkg.com/html5-qrcode"
+        type="text/javascript"></script>
+
+
+<style>
+
+    /* ========================================================= */
+    /* GLOBAL */
+    /* ========================================================= */
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        background: #090909;
+        color: #ffffff;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+    }
+
+    body {
+        background: #090909;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    button,
+    input,
+    select {
+        font-family: inherit;
+    }
+
+
+    /* ========================================================= */
+    /* PAGE */
+    /* ========================================================= */
+
+    .curing-page {
+        min-height: 100vh;
+        padding: 40px 50px 60px;
+        background: #090909;
+    }
+
+
+    /* ========================================================= */
+    /* HEADER */
+    /* ========================================================= */
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .page-label,
+    .card-label {
+        color: #e30613;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+
+    .page-header h1 {
+        margin: 8px 0;
+        color: #ffffff;
+        font-size: 36px;
+    }
+
+    .page-header p {
+        margin: 0;
+        color: #777777;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .back-button {
+        padding: 11px 16px;
+        background: #111111;
+        border: 1px solid #333333;
+        border-radius: 5px;
+        color: #cccccc;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .back-button:hover {
+        border-color: #e30613;
+        color: #ffffff;
+    }
+
+
+    /* ========================================================= */
+    /* MESSAGE */
+    /* ========================================================= */
+
+    .message {
+        margin-bottom: 25px;
+        padding: 14px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .message.success {
+        background: #102015;
+        border: 1px solid #245c32;
+        color: #6fd584;
+    }
+
+    .message.error {
+        background: #260d0f;
+        border: 1px solid #681c22;
+        color: #ff6872;
+    }
+
+
+    /* ========================================================= */
+    /* GRID */
+    /* ========================================================= */
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 25px;
+        align-items: start;
+    }
+
+    .form-card,
+    .info-card {
+        padding: 30px;
+        background: #111111;
+        border: 1px solid #292929;
+        border-radius: 8px;
+    }
+
+
+    /* ========================================================= */
+    /* FORM CARD */
+    /* ========================================================= */
+
+    .card-header {
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #292929;
+    }
+
+    .card-header h2,
+    .info-card h2 {
+        margin: 7px 0 8px;
+        color: #ffffff;
+        font-size: 24px;
+    }
+
+    .description {
+        margin: 0;
+        color: #777777;
+        line-height: 1.7;
+        font-size: 14px;
+    }
+
+
+    /* ========================================================= */
+    /* SCANNER */
+    /* ========================================================= */
+
+    .scanner-section {
+        margin-bottom: 25px;
+        padding: 18px;
+        background: #151515;
+        border: 1px solid #292929;
+        border-radius: 6px;
+    }
+
+    .scanner-title {
+        color: #bbbbbb;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .scanner-description {
+        margin-top: 5px;
+        color: #666666;
+        font-size: 12px;
+    }
+
+    .qr-reader {
+        width: 100%;
+        max-width: 420px;
+        min-height: 20px;
+        margin: 18px auto;
+        overflow: hidden;
+        border-radius: 6px;
+    }
+
+    .qr-reader video {
+        width: 100% !important;
+        max-width: 100%;
+        border-radius: 6px;
+    }
+
+    .scanner-button {
+        width: 100%;
+        padding: 13px;
+        background: #181818;
+        border: 1px solid #3a3a3a;
+        border-radius: 5px;
+        color: #dddddd;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .scanner-button:hover {
+        border-color: #e30613;
+        color: #ffffff;
+    }
+
+    .stop-button {
+        background: #260d0f;
+        border-color: #681c22;
+        color: #ff6872;
+    }
+
+    .scanner-status {
+        margin-top: 10px;
+        text-align: center;
+        color: #666666;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+
+    /* ========================================================= */
+    /* FORM */
+    /* ========================================================= */
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #bbbbbb;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 14px;
+        background: #181818;
+        border: 1px solid #333333;
+        border-radius: 5px;
+        color: #ffffff;
+        font-size: 15px;
+        outline: none;
+        transition: 0.2s;
+    }
+
+    .form-control::placeholder {
+        color: #555555;
+    }
+
+    .form-control:focus {
+        border-color: #e30613;
+        background: #1b1b1b;
+        box-shadow: 0 0 0 2px rgba(227, 6, 19, 0.10);
+    }
+
+    select.form-control {
+        cursor: pointer;
+    }
+
+    select.form-control option {
+        background: #181818;
+        color: #ffffff;
+    }
+
+    .form-group small {
+        display: block;
+        margin-top: 7px;
+        color: #666666;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+
+    /* ========================================================= */
+    /* BARCODE INPUT */
+    /* ========================================================= */
+
+    .barcode-input-row {
+        display: grid;
+        grid-template-columns: 1fr 90px;
+        gap: 8px;
+    }
+
+    .search-button {
+        background: #181818;
+        border: 1px solid #333333;
+        border-radius: 5px;
+        color: #dddddd;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .search-button:hover {
+        border-color: #e30613;
+        color: #ffffff;
+    }
+
+
+    /* ========================================================= */
+    /* BUILDING DATA */
+    /* ========================================================= */
+
+    .building-data {
+        margin: 25px 0;
+        padding: 22px;
+        background: #151515;
+        border: 1px solid #64151b;
+        border-radius: 7px;
+    }
+
+    .building-data-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #292929;
+    }
+
+    .building-data-header h3 {
+        margin: 7px 0 0;
+        color: #ffffff;
+        font-size: 18px;
+    }
+
+    .process-badge {
+        padding: 7px 10px;
+        background: #2a0b0e;
+        border: 1px solid #64151b;
+        border-radius: 4px;
+        color: #e30613;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+    }
+
+    .data-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .data-item {
+        padding: 14px;
+        background: #181818;
+        border: 1px solid #292929;
+        border-radius: 5px;
+    }
+
+    .data-item.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .data-label {
+        display: block;
+        margin-bottom: 7px;
+        color: #666666;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .data-item strong {
+        display: block;
+        color: #eeeeee;
+        font-size: 14px;
+    }
+
+    .barcode-text {
+        font-family: Consolas, monospace;
+        font-size: 12px !important;
+        word-break: break-all;
+    }
+
+    .process-text {
+        color: #e30613 !important;
+        letter-spacing: 1px;
+    }
+
+
+    /* ========================================================= */
+    /* CURING INPUT */
+    /* ========================================================= */
+
+    .curing-input-section {
+        margin-top: 25px;
+    }
+
+    .section-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+        color: #e30613;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+
+    .section-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #292929;
+    }
+
+
+    /* ========================================================= */
+    /* SUBMIT */
+    /* ========================================================= */
+
+    .submit-button {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        padding: 15px 18px;
+        background: #e30613;
+        border: none;
+        border-radius: 5px;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .submit-button:hover {
+        background: #c9000b;
+    }
+
+    .button-arrow {
+        font-size: 20px;
+    }
+
+
+    /* ========================================================= */
+    /* INFO CARD */
+    /* ========================================================= */
+
+    .info-card {
+        min-height: 500px;
+    }
+
+    .info-card > .description {
+        margin-top: 18px;
+    }
+
+
+    /* ========================================================= */
+    /* PROCESS */
+    /* ========================================================= */
+
+    .process {
+        margin-top: 35px;
+    }
+
+    .process-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 13px;
+        background: #181818;
+        border: 1px solid #292929;
+        border-radius: 6px;
+    }
+
+    .process-item.active {
+        border-color: #64151b;
+        background: #1a1112;
+    }
+
+    .process-number {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #242424;
+        border-radius: 5px;
+        color: #666666;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .process-item.active .process-number {
+        background: #e30613;
+        color: #ffffff;
+    }
+
+    .process-item strong {
+        display: block;
+        color: #dddddd;
+        font-size: 13px;
+    }
+
+    .process-item small {
+        display: block;
+        margin-top: 4px;
+        color: #666666;
+        font-size: 11px;
+    }
+
+    .line {
+        width: 1px;
+        height: 25px;
+        margin-left: 31px;
+        background: #333333;
+    }
+
+
+    /* ========================================================= */
+    /* SCAN INFO */
+    /* ========================================================= */
+
+    .scan-info {
+        display: flex;
+        gap: 12px;
+        margin-top: 35px;
+        padding: 15px;
+        background: #181818;
+        border: 1px solid #292929;
+        border-radius: 6px;
+    }
+
+    .scan-info-icon {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e30613;
+        border-radius: 5px;
+        color: #ffffff;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .scan-info strong {
+        display: block;
+        color: #dddddd;
+        font-size: 12px;
+    }
+
+    .scan-info p {
+        margin: 5px 0 0;
+        color: #666666;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+
+    /* ========================================================= */
+    /* TRACEABILITY */
+    /* ========================================================= */
+
+    .traceability-card {
+        margin-top: 25px;
+        padding: 28px 30px;
+        background: #111111;
+        border: 1px solid #292929;
+        border-radius: 8px;
+    }
+
+    .traceability-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .traceability-header h2 {
+        margin: 7px 0 0;
+        color: #ffffff;
+        font-size: 22px;
+    }
+
+    .station-status {
+        padding: 7px 10px;
+        background: #2a0b0e;
+        border: 1px solid #64151b;
+        border-radius: 4px;
+        color: #e30613;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+    }
+
+    .traceability-flow {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .trace-step {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px;
+        background: #181818;
+        border: 1px solid #292929;
+        border-radius: 5px;
+    }
+
+    .trace-step.active {
+        border-color: #64151b;
+        background: #1a1112;
+    }
+
+    .step-number {
+        color: #e30613;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .trace-step strong {
+        display: block;
+        color: #dddddd;
+        font-size: 12px;
+    }
+
+    .trace-step small {
+        display: block;
+        margin-top: 4px;
+        color: #666666;
+        font-size: 9px;
+    }
+
+    .trace-line {
+        width: 30px;
+        height: 1px;
+        flex-shrink: 0;
+        background: #333333;
+    }
+
+
+    /* ========================================================= */
+    /* RESPONSIVE */
+    /* ========================================================= */
+
+    @@media (max-width: 900px) {
+
+        .curing-page {
+            padding: 30px 25px 50px;
+        }
+
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .info-card {
+            min-height: auto;
+        }
+
+        .traceability-flow {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .trace-line {
+            width: 1px;
+            height: 20px;
+            margin: 0 auto;
+        }
+
+    }
+
+
+    @@media (max-width: 650px) {
+
+        .curing-page {
+            padding: 25px 18px 40px;
+        }
+
+        .page-header {
+            flex-direction: column;
+        }
+
+        .form-card,
+        .info-card,
+        .traceability-card {
+            padding: 22px;
+        }
+
+        .building-data-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .data-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .data-item.full-width {
+            grid-column: auto;
+        }
+
+        .barcode-input-row {
+            grid-template-columns: 1fr;
+        }
+
+        .traceability-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+    }
+
+</style>
+
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================================================= -->
+
+<script>
+
+    // =========================================================
+    // GLOBAL SCANNER
+    // =========================================================
+
+    let html5QrCode = null;
+    let scannerRunning = false;
+    let scanProcessing = false;
+
+
+    // =========================================================
+    // START CAMERA
+    // =========================================================
+
+    function startScanner() {
+
+        console.log("START SCANNER");
+
+        const status =
+            document.getElementById("scannerStatus");
+
+        const reader =
+            document.getElementById("reader");
+
+        const startButton =
+            document.getElementById("startScannerButton");
+
+        const stopButton =
+            document.getElementById("stopScannerButton");
+
+
+        if (!status || !reader) {
+
+            console.error(
+                "Element scanner tidak ditemukan."
+            );
+
+            return;
+        }
+
+
+        if (scannerRunning) {
+
+            console.log(
+                "Scanner sudah berjalan."
+            );
+
+            return;
+        }
+
+
+        if (typeof Html5Qrcode === "undefined") {
+
+            console.error(
+                "Library html5-qrcode belum berhasil dimuat."
+            );
+
+            status.innerText =
+                "Library kamera belum dimuat. Refresh halaman.";
+
+            alert(
+                "QR Scanner belum siap.\n\n" +
+                "Silakan refresh halaman dan coba lagi."
+            );
+
+            return;
+        }
+
+
+        status.innerText =
+            "Meminta izin kamera...";
+
+
+        scanProcessing = false;
+
+
+        try {
+
+            html5QrCode =
+                new Html5Qrcode("reader");
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Gagal membuat scanner:",
+                error
+            );
+
+            status.innerText =
+                "Scanner gagal dibuat.";
+
+            return;
+        }
+
+
+        const config = {
+
+            fps: 10,
+
+            qrbox: function (
+                viewfinderWidth,
+                viewfinderHeight
+            ) {
+
+                const minEdge =
+                    Math.min(
+                        viewfinderWidth,
+                        viewfinderHeight
+                    );
+
+                const boxSize =
+                    Math.floor(
+                        minEdge * 0.70
+                    );
+
+                return {
+                    width: Math.min(boxSize, 300),
+                    height: Math.min(boxSize, 300)
+                };
+
+            },
+
+            aspectRatio: 1.0
+
+        };
+
+
+        html5QrCode
+            .start(
+
+                {
+                    facingMode: "environment"
+                },
+
+                config,
+
+                function (
+                    decodedText,
+                    decodedResult
+                ) {
+
+                    onScanSuccess(
+                        decodedText,
+                        decodedResult
+                    );
+
+                },
+
+                function (
+                    errorMessage
+                ) {
+
+                    onScanFailure(
+                        errorMessage
+                    );
+
+                }
+
+            )
+
+            .then(function () {
+
+                console.log(
+                    "KAMERA BERHASIL DIMULAI"
+                );
+
+
+                scannerRunning = true;
+
+
+                if (startButton) {
+
+                    startButton.style.display =
+                        "none";
+
+                }
+
+
+                if (stopButton) {
+
+                    stopButton.style.display =
+                        "block";
+
+                }
+
+
+                status.innerText =
+                    "Kamera aktif. Arahkan QR Code ke kamera.";
+
+            })
+
+            .catch(function (error) {
+
+                console.error(
+                    "CAMERA ERROR:",
+                    error
+                );
+
+
+                scannerRunning = false;
+
+
+                if (startButton) {
+
+                    startButton.style.display =
+                        "block";
+
+                }
+
+
+                if (stopButton) {
+
+                    stopButton.style.display =
+                        "none";
+
+                }
+
+
+                let message =
+                    "Kamera tidak dapat digunakan.";
+
+
+                if (
+                    error &&
+                    error.name === "NotAllowedError"
+                ) {
+
+                    message =
+                        "Izin kamera ditolak. Izinkan kamera pada browser.";
+
+                }
+
+                else if (
+                    error &&
+                    error.name === "NotFoundError"
+                ) {
+
+                    message =
+                        "Kamera tidak ditemukan pada perangkat.";
+
+                }
+
+
+                status.innerText =
+                    message;
+
+
+                alert(
+                    message
+                );
+
+            });
+
+    }
+
+
+    // =========================================================
+    // SCAN SUCCESS
+    // =========================================================
+
+    function onScanSuccess(
+        decodedText,
+        decodedResult
+    ) {
+
+        console.log(
+            "================================="
+        );
+
+        console.log(
+            "QR BERHASIL DIBACA"
+        );
+
+        console.log(
+            decodedText
+        );
+
+        console.log(
+            "================================="
+        );
+
+
+        if (scanProcessing) {
+
+            return;
+
+        }
+
+
+        scanProcessing = true;
+
+
+        const barcode =
+            extractBarcodeFromQR(
+                decodedText
+            );
+
+
+        console.log(
+            "BARCODE HASIL EXTRACT:",
+            barcode
+        );
+
+
+        if (!barcode) {
+
+            scanProcessing = false;
+
+
+            const status =
+                document.getElementById(
+                    "scannerStatus"
+                );
+
+
+            if (status) {
+
+                status.innerText =
+                    "QR terbaca tetapi barcode TIRE tidak ditemukan.";
+
+            }
+
+
+            console.warn(
+                "QR terbaca tetapi barcode tidak ditemukan."
+            );
+
+
+            return;
+
+        }
+
+
+        const barcodeInput =
+            document.getElementById(
+                "barcodeInput"
+            );
+
+
+        if (barcodeInput) {
+
+            barcodeInput.value =
+                barcode;
+
+        }
+
+
+        const status =
+            document.getElementById(
+                "scannerStatus"
+            );
+
+
+        if (status) {
+
+            status.innerText =
+                "QR berhasil dibaca. Mencari data Building...";
+
+        }
+
+
+        // Stop camera terlebih dahulu
+
+        stopScanner()
+            .finally(function () {
+
+                // Setelah scanner berhenti,
+                // cari data Building.
+
+                findBuildingData(
+                    barcode
+                );
+
+            });
+
+    }
+
+
+    // =========================================================
+    // SCAN FAILURE
+    // =========================================================
+
+    function onScanFailure(errorMessage) {
+
+        // Jangan tampilkan error.
+        // Ini normal ketika kamera belum menemukan QR.
+
+    }
+
+
+    // =========================================================
+    // STOP CAMERA
+    // =========================================================
+
+    function stopScanner() {
+
+        return new Promise(function (resolve) {
+
+            const startButton =
+                document.getElementById(
+                    "startScannerButton"
+                );
+
+            const stopButton =
+                document.getElementById(
+                    "stopScannerButton"
+                );
+
+            const status =
+                document.getElementById(
+                    "scannerStatus"
+                );
+
+
+            if (
+                !html5QrCode ||
+                !scannerRunning
+            ) {
+
+                scannerRunning = false;
+
+
+                if (startButton) {
+
+                    startButton.style.display =
+                        "block";
+
+                }
+
+
+                if (stopButton) {
+
+                    stopButton.style.display =
+                        "none";
+
+                }
+
+
+                resolve();
+
+                return;
+
+            }
+
+
+            console.log(
+                "STOP CAMERA"
+            );
+
+
+            html5QrCode
+                .stop()
+
+                .then(function () {
+
+                    console.log(
+                        "Kamera berhasil dihentikan."
+                    );
+
+
+                    scannerRunning =
+                        false;
+
+
+                    if (startButton) {
+
+                        startButton.style.display =
+                            "block";
+
+                    }
+
+
+                    if (stopButton) {
+
+                        stopButton.style.display =
+                            "none";
+
+                    }
+
+
+                    if (status) {
+
+                        status.innerText =
+                            "Kamera berhenti.";
+
+                    }
+
+
+                    resolve();
+
+                })
+
+                .catch(function (error) {
+
+                    console.error(
+                        "STOP CAMERA ERROR:",
+                        error
+                    );
+
+
+                    scannerRunning =
+                        false;
+
+
+                    if (startButton) {
+
+                        startButton.style.display =
+                            "block";
+
+                    }
+
+
+                    if (stopButton) {
+
+                        stopButton.style.display =
+                            "none";
+
+                    }
+
+
+                    resolve();
+
+                });
+
+        });
+
+    }
+
+
+    // =========================================================
+    // FIND BUILDING DATA
+    // =========================================================
+
+    function findBuildingData(
+        scannedBarcode = null
+    ) {
+
+        console.log(
+            "================================="
+        );
+
+        console.log(
+            "FIND BUILDING DATA"
+        );
+
+
+        const barcodeInput =
+            document.getElementById(
+                "barcodeInput"
+            );
+
+
+        const status =
+            document.getElementById(
+                "scannerStatus"
+            );
+
+
+        if (!barcodeInput) {
+
+            console.error(
+                "barcodeInput tidak ditemukan."
+            );
+
+            return;
+
+        }
+
+
+        // =====================================================
+        // AMBIL INPUT
+        // =====================================================
+
+        let rawInput;
+
+
+        if (scannedBarcode) {
+
+            rawInput =
+                scannedBarcode;
+
+        }
+
+        else {
+
+            rawInput =
+                barcodeInput.value.trim();
+
+        }
+
+
+        console.log(
+            "RAW INPUT:",
+            rawInput
+        );
+
+
+        // =====================================================
+        // VALIDASI
+        // =====================================================
+
+        if (!rawInput) {
+
+            alert(
+                "Silakan scan atau masukkan barcode terlebih dahulu."
+            );
+
+            return;
+
+        }
+
+
+        // =====================================================
+        // EXTRACT BARCODE
+        // =====================================================
+
+        const barcode =
+            extractBarcodeFromQR(
+                rawInput
+            );
+
+
+        console.log(
+            "EXTRACTED BARCODE:",
+            barcode
+        );
+
+
+        if (!barcode) {
+
+            hideBuildingData();
+
+
+            if (status) {
+
+                status.innerText =
+                    "Barcode tidak valid.";
+
+            }
+
+
+            alert(
+                "Barcode tidak valid.\n\n" +
+                "Pastikan barcode memiliki format:\n" +
+                "TIRE-..."
+            );
+
+
+            scanProcessing =
+                false;
+
+
+            return;
+
+        }
+
+
+        // =====================================================
+        // TAMPILKAN BARCODE BERSIH
+        // =====================================================
+
+        barcodeInput.value =
+            barcode;
+
+
+        if (status) {
+
+            status.innerText =
+                "Mencari data Building...";
+
+        }
+
+
+        // =====================================================
+        // URL REQUEST
+        // =====================================================
+
+        const url =
+            "?handler=GetTire&barcode=" +
+            encodeURIComponent(
+                barcode
+            );
+
+
+        console.log(
+            "REQUEST URL:",
+            url
+        );
+
+
+        // =====================================================
+        // FETCH
+        // =====================================================
+
+        fetch(
+            url,
+            {
+                method: "GET",
+
+                headers: {
+                    "Accept": "application/json"
+                },
+
+                cache: "no-store"
+            }
+        )
+
+        .then(function (response) {
+
+            console.log(
+                "HTTP STATUS:",
+                response.status
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Server mengembalikan HTTP " +
+                    response.status
+                );
+
+            }
+
+
+            return response.json();
+
+        })
+
+
+        .then(function (result) {
+
+            console.log(
+                "RESPONSE GetTire:",
+                result
+            );
+
+
+            // =================================================
+            // DATA TIDAK DITEMUKAN
+            // =================================================
+
+            if (!result || !result.success) {
+
+                hideBuildingData();
+
+
+                const message =
+                    result &&
+                    result.message
+                        ? result.message
+                        : "Data Building tidak ditemukan.";
+
+
+                if (status) {
+
+                    status.innerText =
+                        message;
+
+                }
+
+
+                alert(
+                    message
+                );
+
+
+                scanProcessing =
+                    false;
+
+
+                return;
+
+            }
+
+
+            // =================================================
+            // AMBIL DATA
+            // =================================================
+
+            const data =
+                result.data;
+
+
+            if (!data) {
+
+                throw new Error(
+                    "Server berhasil merespons tetapi data kosong."
+                );
+
+            }
+
+
+            console.log(
+                "BUILDING DATA:",
+                data
+            );
+
+
+            // =================================================
+            // BARCODE
+            // =================================================
+
+            const dataBarcode =
+                document.getElementById(
+                    "dataBarcode"
+                );
+
+
+            if (dataBarcode) {
+
+                dataBarcode.innerText =
+                    data.barcode ||
+                    barcode;
+
+            }
+
+
+            // =================================================
+            // TIRE SIZE
+            // =================================================
+
+            const dataTireSize =
+                document.getElementById(
+                    "dataTireSize"
+                );
+
+
+            if (dataTireSize) {
+
+                dataTireSize.innerText =
+                    data.tireSize ||
+                    "-";
+
+            }
+
+
+            // =================================================
+            // OPERATOR
+            // =================================================
+
+            const dataOperator =
+                document.getElementById(
+                    "dataOperator"
+                );
+
+
+            if (dataOperator) {
+
+                dataOperator.innerText =
+                    data.operatorId ||
+                    "-";
+
+            }
+
+
+            // =================================================
+            // MACHINE
+            // =================================================
+
+            const dataMachine =
+                document.getElementById(
+                    "dataMachine"
+                );
+
+
+            if (dataMachine) {
+
+                dataMachine.innerText =
+                    data.machineNumber ||
+                    "-";
+
+            }
+
+
+            // =================================================
+            // SHIFT
+            // =================================================
+
+            const dataShift =
+                document.getElementById(
+                    "dataShift"
+                );
+
+
+            if (dataShift) {
+
+                let shiftValue =
+                    data.shift || "";
+
+
+                if (
+                    shiftValue &&
+                    !shiftValue
+                        .toString()
+                        .toLowerCase()
+                        .startsWith("shift")
+                ) {
+
+                    shiftValue =
+                        "Shift " +
+                        shiftValue;
+
+                }
+
+
+                dataShift.innerText =
+                    shiftValue ||
+                    "-";
+
+            }
+
+
+            // =================================================
+            // BUILDING TIME
+            // =================================================
+
+            const dataBuildingTime =
+                document.getElementById(
+                    "dataBuildingTime"
+                );
+
+
+            if (dataBuildingTime) {
+
+                dataBuildingTime.innerText =
+                    data.buildingTime ||
+                    "-";
+
+            }
+
+
+            // =================================================
+            // CURRENT PROCESS
+            // =================================================
+
+            const dataProcess =
+                document.getElementById(
+                    "dataProcess"
+                );
+
+
+            if (dataProcess) {
+
+                dataProcess.innerText =
+                    data.currentProcess ||
+                    "BUILDING";
+
+            }
+
+
+            // =================================================
+            // TAMPILKAN BUILDING DATA
+            // =================================================
+
+            const buildingData =
+                document.getElementById(
+                    "buildingData"
+                );
+
+
+            if (buildingData) {
+
+                buildingData.style.display =
+                    "block";
+
+            }
+
+
+            // =================================================
+            // TAMPILKAN INPUT CURING
+            // =================================================
+
+            const curingInputSection =
+                document.getElementById(
+                    "curingInputSection"
+                );
+
+
+            if (curingInputSection) {
+
+                curingInputSection.style.display =
+                    "block";
+
+            }
+
+
+            // =================================================
+            // HIDDEN BARCODE
+            // =================================================
+
+            const hiddenBarcode =
+                document.getElementById(
+                    "hiddenBarcode"
+                );
+
+
+            if (hiddenBarcode) {
+
+                hiddenBarcode.value =
+                    data.barcode ||
+                    barcode;
+
+            }
+
+
+            // =================================================
+            // STATUS
+            // =================================================
+
+            if (status) {
+
+                status.innerText =
+                    "QR berhasil ditemukan. Data Building berhasil dimuat.";
+
+            }
+
+
+            // =================================================
+            // FOCUS MOLD
+            // =================================================
+
+            const moldInput =
+                document.getElementById(
+                    "moldInput"
+                );
+
+
+            if (moldInput) {
+
+                setTimeout(
+                    function () {
+
+                        moldInput.focus();
+
+                    },
+                    200
+                );
+
+            }
+
+
+            console.log(
+                "BUILDING DATA BERHASIL DITAMPILKAN."
+            );
+
+
+            scanProcessing =
+                false;
+
+        })
+
+
+        .catch(function (error) {
+
+            console.error(
+                "ERROR GET TIRE:",
+                error
+            );
+
+
+            hideBuildingData();
+
+
+            if (status) {
+
+                status.innerText =
+                    "Terjadi kesalahan saat mengambil data Building.";
+
+            }
+
+
+            alert(
+                "Terjadi kesalahan saat mengambil data Building.\n\n" +
+                "Detail: " +
+                error.message
+            );
+
+
+            scanProcessing =
+                false;
+
+        });
+
+    }
+
+
+    // =========================================================
+    // EXTRACT BARCODE FROM QR
+    // =========================================================
+
+    function extractBarcodeFromQR(
+        input
+    ) {
+
+        if (
+            input === null ||
+            input === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        let text =
+            input
+                .toString()
+                .trim();
+
+
+        if (!text) {
+
+            return "";
+
+        }
+
+
+        console.log(
+            "EXTRACT INPUT:",
+            text
+        );
+
+
+        // =====================================================
+        // CASE 1
+        // BARCODE LANGSUNG
+        //
+        // TIRE-20260826212407392
+        // =====================================================
+
+        const directBarcodeRegex =
+            /^TIRE-[A-Z0-9_-]+$/i;
+
+
+        if (
+            directBarcodeRegex.test(
+                text
+            )
+        ) {
+
+            return text;
+
+        }
+
+
+        // =====================================================
+        // CASE 2
+        // QR LENGKAP
+        //
+        // Barcode: TIRE-20260826212407392
+        // =====================================================
+
+        const barcodeLabelRegex =
+            /Barcode\s*:\s*(TIRE-[A-Z0-9_-]+)/i;
+
+
+        const barcodeLabelMatch =
+            text.match(
+                barcodeLabelRegex
+            );
+
+
+        if (barcodeLabelMatch) {
+
+            return barcodeLabelMatch[1]
+                .trim();
+
+        }
+
+
+        // =====================================================
+        // CASE 3
+        // CARI TIRE- DI DALAM TEXT
+        // =====================================================
+
+        const tireRegex =
+            /TIRE-[A-Z0-9_-]+/i;
+
+
+        const tireMatch =
+            text.match(
+                tireRegex
+            );
+
+
+        if (!tireMatch) {
+
+            return "";
+
+        }
+
+
+        let barcode =
+            tireMatch[0]
+                .trim();
+
+
+        // =====================================================
+        // CLEAN
+        // =====================================================
+
+        barcode =
+            barcode.replace(
+                /[^A-Za-z0-9_-]/g,
+                ""
+            );
+
+
+        // =====================================================
+        // VALIDASI
+        // =====================================================
+
+        if (!barcode) {
+
+            return "";
+
+        }
+
+
+        if (
+            !barcode
+                .toUpperCase()
+                .startsWith("TIRE-")
+        ) {
+
+            return "";
+
+        }
+
+
+        return barcode;
+
+    }
+
+
+    // =========================================================
+    // HIDE BUILDING DATA
+    // =========================================================
+
+    function hideBuildingData() {
+
+        const buildingData =
+            document.getElementById(
+                "buildingData"
+            );
+
+
+        const curingInputSection =
+            document.getElementById(
+                "curingInputSection"
+            );
+
+
+        if (buildingData) {
+
+            buildingData.style.display =
+                "none";
+
+        }
+
+
+        if (curingInputSection) {
+
+            curingInputSection.style.display =
+                "none";
+
+        }
+
+
+        const elements = [
+
+            "dataBarcode",
+            "dataTireSize",
+            "dataOperator",
+            "dataMachine",
+            "dataShift",
+            "dataBuildingTime",
+            "dataProcess"
+
+        ];
+
+
+        elements.forEach(
+            function (id) {
+
+                const element =
+                    document.getElementById(
+                        id
+                    );
+
+
+                if (element) {
+
+                    element.innerText =
+                        "-";
+
+                }
+
+            }
+        );
+
+
+        const hiddenBarcode =
+            document.getElementById(
+                "hiddenBarcode"
+            );
+
+
+        if (hiddenBarcode) {
+
+            hiddenBarcode.value =
+                "";
+
+        }
+
+    }
+
+
+    // =========================================================
+    // BEFORE SUBMIT
+    // =========================================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            console.log(
+                "CURING PAGE JAVASCRIPT READY"
+            );
+
+
+            // =================================================
+            // CURING FORM
+            // =================================================
+
+            const curingForm =
+                document.getElementById(
+                    "curingForm"
+                );
+
+
+            if (curingForm) {
+
+                curingForm.addEventListener(
+                    "submit",
+                    function () {
+
+                        const barcodeInput =
+                            document.getElementById(
+                                "barcodeInput"
+                            );
+
+
+                        const moldInput =
+                            document.getElementById(
+                                "moldInput"
+                            );
+
+
+                        const operatorInput =
+                            document.getElementById(
+                                "operatorInput"
+                            );
+
+
+                        const shiftInput =
+                            document.getElementById(
+                                "shiftInput"
+                            );
+
+
+                        const hiddenBarcode =
+                            document.getElementById(
+                                "hiddenBarcode"
+                            );
+
+
+                        const hiddenMold =
+                            document.getElementById(
+                                "hiddenMold"
+                            );
+
+
+                        const hiddenOperator =
+                            document.getElementById(
+                                "hiddenOperator"
+                            );
+
+
+                        const hiddenShift =
+                            document.getElementById(
+                                "hiddenShift"
+                            );
+
+
+                        if (
+                            barcodeInput &&
+                            hiddenBarcode
+                        ) {
+
+                            hiddenBarcode.value =
+                                barcodeInput.value;
+
+                        }
+
+
+                        if (
+                            moldInput &&
+                            hiddenMold
+                        ) {
+
+                            hiddenMold.value =
+                                moldInput.value;
+
+                        }
+
+
+                        if (
+                            operatorInput &&
+                            hiddenOperator
+                        ) {
+
+                            hiddenOperator.value =
+                                operatorInput.value;
+
+                        }
+
+
+                        if (
+                            shiftInput &&
+                            hiddenShift
+                        ) {
+
+                            hiddenShift.value =
+                                shiftInput.value;
+
+                        }
+
+
+                        console.log(
+                            "SUBMIT CURING"
+                        );
+
+
+                        console.log(
+                            "Barcode:",
+                            hiddenBarcode
+                                ? hiddenBarcode.value
+                                : ""
+                        );
+
+
+                        console.log(
+                            "Mold:",
+                            hiddenMold
+                                ? hiddenMold.value
+                                : ""
+                        );
+
+
+                        console.log(
+                            "Operator:",
+                            hiddenOperator
+                                ? hiddenOperator.value
+                                : ""
+                        );
+
+
+                        console.log(
+                            "Shift:",
+                            hiddenShift
+                                ? hiddenShift.value
+                                : ""
+                        );
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // ENTER PADA BARCODE
+            // =================================================
+
+            const barcodeInput =
+                document.getElementById(
+                    "barcodeInput"
+                );
+
+
+            if (barcodeInput) {
+
+                barcodeInput.addEventListener(
+                    "keydown",
+                    function (event) {
+
+                        if (
+                            event.key === "Enter"
+                        ) {
+
+                            event.preventDefault();
+
+
+                            findBuildingData();
+
+                        }
+
+                    }
+                );
+
+            }
+
+        }
+    );
+
+</script>

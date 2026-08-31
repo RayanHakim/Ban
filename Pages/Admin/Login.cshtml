@@ -1,0 +1,432 @@
+@page
+@model TireTraceabilityDemo.Pages.Admin.LoginModel
+
+@{
+    ViewData["Title"] = "Admin Login";
+}
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        background: #090909;
+        color: #ffffff;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+
+    .login-page {
+
+        min-height: 100vh;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 30px;
+
+        background:
+            radial-gradient(
+                circle at center,
+                #1a0a0b 0%,
+                #090909 55%,
+                #050505 100%
+            );
+    }
+
+
+    .login-container {
+
+        width: 100%;
+
+        max-width: 430px;
+
+        padding: 42px;
+
+        background: #111111;
+
+        border: 1px solid #292929;
+
+        border-radius: 10px;
+
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+    }
+
+
+    .brand {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 14px;
+
+        margin-bottom: 35px;
+    }
+
+
+    .brand-mark {
+
+        width: 48px;
+
+        height: 48px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: #e30613;
+
+        border-radius: 6px;
+
+        font-size: 24px;
+
+        font-weight: 800;
+    }
+
+
+    .brand-title {
+
+        font-size: 19px;
+
+        font-weight: 800;
+
+        letter-spacing: 3px;
+    }
+
+
+    .brand-subtitle {
+
+        margin-top: 3px;
+
+        color: #777777;
+
+        font-size: 10px;
+
+        letter-spacing: 2px;
+    }
+
+
+    .login-label {
+
+        color: #e30613;
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+        letter-spacing: 2px;
+
+        margin-bottom: 9px;
+    }
+
+
+    h1 {
+
+        margin: 0 0 10px;
+
+        font-size: 32px;
+
+        font-weight: 800;
+    }
+
+
+    .description {
+
+        margin: 0 0 30px;
+
+        color: #888888;
+
+        font-size: 14px;
+
+        line-height: 1.6;
+    }
+
+
+    .form-group {
+
+        margin-bottom: 20px;
+    }
+
+
+    label {
+
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #cccccc;
+
+        font-size: 13px;
+
+        font-weight: 600;
+    }
+
+
+    input {
+
+        width: 100%;
+
+        padding: 14px 15px;
+
+        background: #181818;
+
+        color: #ffffff;
+
+        border: 1px solid #303030;
+
+        border-radius: 6px;
+
+        outline: none;
+
+        font-size: 14px;
+
+        transition: 0.2s;
+    }
+
+
+    input:focus {
+
+        border-color: #e30613;
+
+        background: #1c1c1c;
+    }
+
+
+    input::placeholder {
+
+        color: #555555;
+    }
+
+
+    .error-message {
+
+        margin-bottom: 20px;
+
+        padding: 12px 14px;
+
+        background: #2a0d0f;
+
+        border: 1px solid #5c171c;
+
+        border-radius: 6px;
+
+        color: #ff6b73;
+
+        font-size: 13px;
+    }
+
+
+    .login-button {
+
+        width: 100%;
+
+        padding: 14px;
+
+        margin-top: 5px;
+
+        border: none;
+
+        border-radius: 6px;
+
+        background: #e30613;
+
+        color: #ffffff;
+
+        font-size: 14px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+
+    .login-button:hover {
+
+        background: #c90511;
+
+        transform: translateY(-1px);
+    }
+
+
+    .back-link {
+
+        display: block;
+
+        margin-top: 22px;
+
+        text-align: center;
+
+        color: #777777;
+
+        font-size: 12px;
+
+        text-decoration: none;
+    }
+
+
+    .back-link:hover {
+
+        color: #ffffff;
+    }
+
+
+    .footer {
+
+        margin-top: 30px;
+
+        padding-top: 18px;
+
+        border-top: 1px solid #292929;
+
+        color: #444444;
+
+        font-size: 10px;
+
+        text-align: center;
+
+        line-height: 1.6;
+    }
+
+</style>
+
+
+<div class="login-page">
+
+    <div class="login-container">
+
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                B
+            </div>
+
+            <div>
+
+                <div class="brand-title">
+                    TIRE
+                </div>
+
+                <div class="brand-subtitle">
+                    TRACEABILITY
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TITLE -->
+
+        <div class="login-label">
+            ADMINISTRATION
+        </div>
+
+        <h1>
+            Admin Login
+        </h1>
+
+        <p class="description">
+            Login untuk mengakses pengaturan sistem,
+            akun operator, dan data master.
+        </p>
+
+
+        <!-- ERROR -->
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="error-message">
+                @Model.ErrorMessage
+            </div>
+        }
+
+
+        <!-- LOGIN FORM -->
+
+        <form method="post">
+
+
+            <div class="form-group">
+
+                <label for="Username">
+                    Username
+                </label>
+
+                <input
+                    id="Username"
+                    name="Username"
+                    type="text"
+                    placeholder="Masukkan username"
+                    autocomplete="off"
+                    required />
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="Password">
+                    Password
+                </label>
+
+                <input
+                    id="Password"
+                    name="Password"
+                    type="password"
+                    placeholder="Masukkan password"
+                    required />
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button">
+
+                Login Admin
+
+            </button>
+
+
+        </form>
+
+
+        <a href="/Dashboard" class="back-link">
+            ← Kembali ke Dashboard
+        </a>
+
+
+        <div class="footer">
+
+            Tire Traceability Demo
+            <br />
+
+            © 2026
+
+        </div>
+
+
+    </div>
+
+</div>

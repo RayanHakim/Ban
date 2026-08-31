@@ -1,0 +1,1877 @@
+@page
+
+@model TireTraceabilityDemo.Pages.Daisha.IndexModel
+
+@{
+    ViewData["Title"] = "Daisha Management";
+
+    var operatorName =
+        HttpContext.Session.GetString("BuildingOperatorName")
+        ?? "Operator";
+
+    var operatorInitial =
+        string.IsNullOrWhiteSpace(operatorName) ||
+        operatorName == "Operator"
+            ? "?"
+            : operatorName.Substring(0, 1).ToUpper();
+}
+
+<div class="daisha-shell">
+
+    <!-- ===================================================== -->
+    <!-- SIDEBAR -->
+    <!-- ===================================================== -->
+
+    <aside class="sidebar">
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                D
+            </div>
+
+            <div>
+
+                <div class="brand-title">
+                    TIRE
+                </div>
+
+                <div class="brand-subtitle">
+                    TRACEABILITY
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATION -->
+
+        <div class="station-box">
+
+            <div class="station-label">
+                LOGISTICS / GROUPING
+            </div>
+
+            <div class="station-name">
+                DAISHA
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <div class="menu-label">
+            DAISHA
+        </div>
+
+        <nav class="menu">
+
+            <a href="/Daisha"
+               class="menu-item active">
+
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                <span>
+                    Daisha
+                </span>
+
+            </a>
+
+
+            <a href="/Building"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    ◉
+                </span>
+
+                <span>
+                    Building
+                </span>
+
+            </a>
+
+
+            <a href="/Curing"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    ◈
+                </span>
+
+                <span>
+                    Curing
+                </span>
+
+            </a>
+
+
+            <a href="/Dashboard"
+               class="menu-item">
+
+                <span class="menu-icon">
+                    ▤
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <div class="operator-card">
+
+                <div class="operator-icon">
+                    @operatorInitial
+                </div>
+
+                <div>
+
+                    <strong>
+                        @operatorName
+                    </strong>
+
+                    <small>
+                        Building Operator
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="version">
+
+                Tire Traceability Demo
+                <br />
+
+                © 2026
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ===================================================== -->
+    <!-- MAIN CONTENT -->
+    <!-- ===================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <div class="eyebrow">
+                    LOGISTICS / GROUPING
+                </div>
+
+                <h1>
+                    Daisha
+                </h1>
+
+                <p>
+                    Mengelompokkan beberapa Tire dari proses Building
+                    menjadi satu container untuk dikirim ke proses Curing.
+                </p>
+
+            </div>
+
+
+            <div class="station-status">
+
+                <span class="status-dot"></span>
+
+                SYSTEM ONLINE
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ================================================= -->
+        <!-- INFORMATION -->
+        <!-- ================================================= -->
+
+        <section class="info-banner">
+
+            <div class="info-banner-icon">
+                i
+            </div>
+
+            <div>
+
+                <strong>
+                    Daisha sebagai Container Traceability
+                </strong>
+
+                <p>
+                    Satu Daisha memiliki satu identitas dan satu QR Code.
+                    QR Code tersebut digunakan untuk melihat seluruh Tire
+                    yang berada di dalam Daisha.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- CREATE DAISHA -->
+        <!-- ================================================= -->
+
+        <section class="create-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="section-label">
+                        DAISHA REGISTRATION
+                    </div>
+
+                    <h2>
+                        Create Daisha
+                    </h2>
+
+                    <p>
+                        Buat container baru untuk membawa beberapa Tire
+                        menuju proses Curing.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="create-actions">
+
+                <a href="/Daisha/Create"
+                   class="btn-primary">
+
+                    <span>
+                        + CREATE DAISHA
+                    </span>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- RECENT DAISHA -->
+        <!-- ================================================= -->
+
+        <section class="table-card">
+
+            <div class="table-header">
+
+                <div>
+
+                    <div class="section-label">
+                        DAISHA HISTORY
+                    </div>
+
+                    <h2>
+                        Recent Daisha
+                    </h2>
+
+                    <p>
+                        Daftar Daisha yang terakhir dibuat.
+                    </p>
+
+                </div>
+
+
+                <div class="total-badge">
+
+                    @Model.Daishas.Count
+
+                </div>
+
+            </div>
+
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                DAISHA ID
+                            </th>
+
+                            <th>
+                                COMPUTER
+                            </th>
+
+                            <th>
+                                OPERATOR
+                            </th>
+
+                            <th>
+                                TOTAL TIRE
+                            </th>
+
+                            <th>
+                                CREATED
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                ACTION
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @if (Model.Daishas.Count == 0)
+                        {
+                            <tr>
+
+                                <td colspan="8"
+                                    class="empty">
+
+                                    <div class="empty-icon">
+                                        ▦
+                                    </div>
+
+                                    <strong>
+                                        Belum ada Daisha
+                                    </strong>
+
+                                    <span>
+                                        Daisha yang dibuat akan
+                                        muncul di sini.
+                                    </span>
+
+                                </td>
+
+                            </tr>
+                        }
+                        else
+                        {
+                            int number = 1;
+
+                            @foreach (var daisha in Model.Daishas)
+                            {
+                                <tr>
+
+                                    <!-- NUMBER -->
+
+                                    <td class="number">
+                                        @number.ToString("D2")
+                                    </td>
+
+
+                                    <!-- DAISHA ID -->
+
+                                    <td>
+
+                                        <div class="daisha-code">
+
+                                            <span class="daisha-icon">
+                                                ▦
+                                            </span>
+
+                                            <strong>
+                                                @daisha.DaishaCode
+                                            </strong>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- COMPUTER -->
+
+                                    <td>
+
+                                        <span class="computer-badge">
+
+                                            @daisha.ComputerName
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- OPERATOR -->
+
+                                    <td>
+                                        @daisha.OperatorName
+                                    </td>
+
+
+                                    <!-- TOTAL TIRE -->
+
+                                    <td>
+
+                                        <span class="tire-count">
+
+                                            @daisha.TotalTires
+
+                                            <small>
+                                                Tire
+                                            </small>
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- CREATED -->
+
+                                    <td class="date">
+
+                                        @daisha.CreatedAt.ToString(
+                                            "dd/MM/yyyy HH:mm")
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+                                        @if (daisha.Status == "READY_FOR_CURING")
+                                        {
+                                            <span class="status ready">
+
+                                                <span></span>
+
+                                                READY FOR CURING
+
+                                            </span>
+                                        }
+                                        else if (daisha.Status == "IN_CURING")
+                                        {
+                                            <span class="status curing">
+
+                                                <span></span>
+
+                                                IN CURING
+
+                                            </span>
+                                        }
+                                        else if (daisha.Status == "COMPLETED")
+                                        {
+                                            <span class="status completed">
+
+                                                <span></span>
+
+                                                COMPLETED
+
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="status">
+
+                                                @daisha.Status
+
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- ACTION -->
+
+                                    <td>
+
+                                        <a href="/Daisha/Details?id=@daisha.Id"
+                                           class="action-button">
+
+                                            View
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                number++;
+                            }
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- HOW IT WORKS -->
+        <!-- ================================================= -->
+
+        <section class="process-card">
+
+            <div class="process-header">
+
+                <div>
+
+                    <div class="section-label">
+                        TRACEABILITY FLOW
+                    </div>
+
+                    <h2>
+                        Daisha Process
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="process-flow">
+
+
+                <!-- STEP 01 -->
+
+                <div class="flow-item active">
+
+                    <div class="flow-number">
+                        01
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Select Tire
+                        </strong>
+
+                        <small>
+                            Pilih Tire dari Building
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="flow-line">
+                </div>
+
+
+                <!-- STEP 02 -->
+
+                <div class="flow-item">
+
+                    <div class="flow-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Create Daisha
+                        </strong>
+
+                        <small>
+                            Group several Tire
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="flow-line">
+                </div>
+
+
+                <!-- STEP 03 -->
+
+                <div class="flow-item">
+
+                    <div class="flow-number">
+                        03
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Print Tag
+                        </strong>
+
+                        <small>
+                            QR + informasi Daisha
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="flow-line">
+                </div>
+
+
+                <!-- STEP 04 -->
+
+                <div class="flow-item">
+
+                    <div class="flow-number">
+                        04
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Curing
+                        </strong>
+
+                        <small>
+                            Scan satu QR Daisha
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- INFORMATION -->
+        <!-- ================================================= -->
+
+        <section class="info-card">
+
+            <div class="info-icon">
+                i
+            </div>
+
+            <div>
+
+                <strong>
+                    Satu QR untuk seluruh Tire
+                </strong>
+
+                <p>
+                    QR Code pada tag Daisha tidak menggantikan barcode
+                    masing-masing Tire. QR Daisha hanya menjadi identitas
+                    grouping sehingga ketika dipindai, sistem dapat
+                    menampilkan seluruh Tire yang berada di dalam Daisha.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: #090909;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   SHELL
+========================================================= */
+
+.daisha-shell {
+    display: flex;
+    min-height: 100vh;
+    background: #090909;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 270px;
+    height: 100vh;
+
+    padding: 28px 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #111111;
+
+    border-right: 1px solid #292929;
+}
+
+
+.brand {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 5px 10px 30px;
+
+    border-bottom: 1px solid #292929;
+}
+
+
+.brand-mark {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e30613;
+
+    border-radius: 6px;
+
+    font-size: 23px;
+    font-weight: 800;
+}
+
+
+.brand-title {
+    font-size: 19px;
+    font-weight: 800;
+
+    letter-spacing: 3px;
+}
+
+
+.brand-subtitle {
+    margin-top: 3px;
+
+    color: #777777;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   STATION
+========================================================= */
+
+.station-box {
+    margin-top: 25px;
+    padding: 15px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+
+.station-label {
+    color: #777777;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.station-name {
+    margin-top: 7px;
+
+    color: #e30613;
+
+    font-size: 18px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.menu-label {
+    margin: 32px 12px 12px;
+
+    color: #555555;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.menu {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.menu-item {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 14px;
+
+    color: #999999;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+
+.menu-item:hover {
+    color: #ffffff;
+    background: #1c1c1c;
+}
+
+
+.menu-item.active {
+    color: #ffffff;
+    background: #e30613;
+}
+
+
+.menu-icon {
+    width: 24px;
+
+    text-align: center;
+
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM
+========================================================= */
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+
+.operator-card {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 14px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+
+.operator-icon {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 50%;
+
+    color: #e30613;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+
+.operator-card strong {
+    display: block;
+
+    font-size: 12px;
+}
+
+
+.operator-card small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #666666;
+
+    font-size: 10px;
+}
+
+
+.version {
+    margin-top: 18px;
+
+    color: #444444;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main-content {
+    width: calc(100% - 270px);
+
+    margin-left: 270px;
+
+    padding: 48px 55px 70px;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 30px;
+}
+
+
+.eyebrow,
+.section-label {
+    color: #e30613;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.topbar h1 {
+    margin: 9px 0 8px;
+
+    font-size: 40px;
+
+    line-height: 1.1;
+}
+
+
+.topbar p {
+    margin: 0;
+
+    max-width: 780px;
+
+    color: #888888;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
+
+
+.station-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 9px 12px;
+
+    background: #102419;
+
+    border: 1px solid #1c512c;
+
+    border-radius: 5px;
+
+    color: #63d886;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    background: #36c85f;
+
+    border-radius: 50%;
+}
+
+
+/* =========================================================
+   INFO BANNER
+========================================================= */
+
+.info-banner {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+
+    padding: 20px;
+
+    background: #111111;
+
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+}
+
+
+.info-banner-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 50%;
+
+    color: #e30613;
+
+    font-weight: 700;
+}
+
+
+.info-banner strong {
+    display: block;
+
+    font-size: 13px;
+}
+
+
+.info-banner p {
+    margin: 6px 0 0;
+
+    color: #777777;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CREATE CARD
+========================================================= */
+
+.create-card {
+    padding: 28px;
+
+    margin-bottom: 25px;
+
+    background: #121212;
+
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+}
+
+
+.card-header {
+    margin-bottom: 22px;
+}
+
+
+.card-header h2 {
+    margin: 7px 0 6px;
+
+    font-size: 26px;
+}
+
+
+.card-header p {
+    margin: 0;
+
+    color: #777777;
+
+    font-size: 13px;
+}
+
+
+.create-actions {
+    display: flex;
+}
+
+
+.btn-primary {
+    width: 100%;
+
+    min-height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    background: #e30613;
+
+    border: 1px solid #e30613;
+
+    border-radius: 5px;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    transition: 0.2s;
+}
+
+
+.btn-primary:hover {
+    background: #c90511;
+
+    border-color: #c90511;
+}
+
+
+.arrow {
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-card {
+    overflow: hidden;
+
+    background: #121212;
+
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+
+    margin-bottom: 25px;
+}
+
+
+.table-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 22px 23px;
+
+    border-bottom: 1px solid #292929;
+}
+
+
+.table-header h2 {
+    margin: 7px 0 5px;
+
+    font-size: 22px;
+}
+
+
+.table-header p {
+    margin: 0;
+
+    color: #666666;
+
+    font-size: 11px;
+}
+
+
+.total-badge {
+    min-width: 35px;
+
+    padding: 7px 10px;
+
+    text-align: center;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 5px;
+
+    color: #e30613;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+
+thead {
+    background: #181818;
+}
+
+
+th {
+    padding: 14px 18px;
+
+    color: #666666;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+
+td {
+    padding: 16px 18px;
+
+    border-top: 1px solid #242424;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+}
+
+
+.number {
+    color: #555555;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   DAISHA CODE
+========================================================= */
+
+.daisha-code {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+.daisha-icon {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #1c1c1c;
+
+    border: 1px solid #333333;
+
+    border-radius: 4px;
+
+    color: #e30613;
+}
+
+
+.daisha-code strong {
+    font-size: 11px;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   COMPUTER
+========================================================= */
+
+.computer-badge {
+    display: inline-block;
+
+    padding: 6px 8px;
+
+    background: #1c1c1c;
+
+    border: 1px solid #333333;
+
+    border-radius: 4px;
+
+    color: #dddddd;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TIRE COUNT
+========================================================= */
+
+.tire-count {
+    display: inline-flex;
+
+    align-items: baseline;
+
+    gap: 5px;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+
+.tire-count small {
+    color: #666666;
+
+    font-size: 10px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 6px 9px;
+
+    border-radius: 4px;
+
+    background: #1c1c1c;
+
+    color: #888888;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+}
+
+
+.status span {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #555555;
+}
+
+
+.status.ready {
+    background: #102419;
+
+    color: #63d886;
+}
+
+
+.status.ready span {
+    background: #36c85f;
+}
+
+
+.status.curing {
+    background: #261b0d;
+
+    color: #dca85f;
+}
+
+
+.status.curing span {
+    background: #dca85f;
+}
+
+
+.status.completed {
+    background: #18221e;
+
+    color: #80c9b0;
+}
+
+
+.status.completed span {
+    background: #61b89b;
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.action-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 7px 11px;
+
+    background: #1c1c1c;
+
+    border: 1px solid #333333;
+
+    border-radius: 4px;
+
+    color: #cccccc;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    transition: 0.2s;
+}
+
+
+.action-button:hover {
+    color: #ffffff;
+
+    border-color: #e30613;
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.date {
+    color: #777777;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty {
+    padding: 60px 20px;
+
+    text-align: center;
+}
+
+
+.empty-icon {
+    margin-bottom: 12px;
+
+    color: #444444;
+
+    font-size: 30px;
+}
+
+
+.empty strong {
+    display: block;
+
+    font-size: 14px;
+}
+
+
+.empty span {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #666666;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   PROCESS
+========================================================= */
+
+.process-card {
+    margin-bottom: 25px;
+
+    padding: 28px;
+
+    background: #111111;
+
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+}
+
+
+.process-header {
+    margin-bottom: 22px;
+}
+
+
+.process-header h2 {
+    margin: 7px 0 0;
+
+    font-size: 22px;
+}
+
+
+.process-flow {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.flow-item {
+    flex: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 15px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 5px;
+}
+
+
+.flow-item.active {
+    border-color: #64151b;
+}
+
+
+.flow-number {
+    color: #e30613;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.flow-item strong {
+    display: block;
+
+    color: #dddddd;
+
+    font-size: 12px;
+}
+
+
+.flow-item small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #666666;
+
+    font-size: 9px;
+}
+
+
+.flow-line {
+    width: 25px;
+    height: 1px;
+
+    flex-shrink: 0;
+
+    background: #333333;
+}
+
+
+/* =========================================================
+   INFORMATION
+========================================================= */
+
+.info-card {
+    display: flex;
+
+    gap: 15px;
+
+    padding: 20px;
+
+    background: #111111;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+
+.info-icon {
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 50%;
+
+    color: #e30613;
+
+    font-weight: 700;
+}
+
+
+.info-card strong {
+    font-size: 13px;
+}
+
+
+.info-card p {
+    margin: 7px 0 0;
+
+    color: #777777;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@@media (max-width: 1100px) {
+
+    .sidebar {
+        width: 220px;
+    }
+
+    .main-content {
+        width: calc(100% - 220px);
+
+        margin-left: 220px;
+
+        padding: 35px 25px;
+    }
+
+    .process-flow {
+        flex-wrap: wrap;
+    }
+
+    .flow-item {
+        min-width: 220px;
+    }
+
+    .flow-line {
+        display: none;
+    }
+
+}
+
+
+@@media (max-width: 750px) {
+
+    .sidebar {
+        width: 70px;
+
+        padding: 20px 8px;
+    }
+
+    .brand {
+        justify-content: center;
+
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .brand > div:last-child,
+    .station-box,
+    .menu-label,
+    .menu-item span:last-child,
+    .operator-card > div:last-child,
+    .version {
+        display: none;
+    }
+
+    .menu-item {
+        justify-content: center;
+    }
+
+    .main-content {
+        width: calc(100% - 70px);
+
+        margin-left: 70px;
+
+        padding: 30px 15px;
+    }
+
+    .topbar {
+        flex-direction: column;
+    }
+
+    .topbar h1 {
+        font-size: 30px;
+    }
+
+    .info-banner {
+        align-items: flex-start;
+    }
+
+    .process-flow {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .flow-item {
+        min-width: 0;
+    }
+
+}
+
+</style>

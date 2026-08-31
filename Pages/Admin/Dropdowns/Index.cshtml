@@ -1,0 +1,1893 @@
+@page
+@model TireTraceabilityDemo.Pages.Admin.Dropdowns.IndexModel
+
+@{
+    ViewData["Title"] = "Dropdown Management";
+}
+
+<div class="admin-shell">
+
+    <!-- ========================= -->
+    <!-- SIDEBAR -->
+    <!-- ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                B
+            </div>
+
+            <div>
+                <div class="brand-title">
+                    TIRE
+                </div>
+
+                <div class="brand-subtitle">
+                    TRACEABILITY
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="menu-label">
+            ADMINISTRATION
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/Dashboard" class="menu-item">
+
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="/Admin" class="menu-item">
+
+                <span class="menu-icon">
+                    ⚙
+                </span>
+
+                <span>
+                    Administration
+                </span>
+
+            </a>
+
+
+            <a href="/Admin/Operators" class="menu-item">
+
+                <span class="menu-icon">
+                    ♟
+                </span>
+
+                <span>
+                    Operators
+                </span>
+
+            </a>
+
+
+            <a href="/Admin/Dropdowns" class="menu-item active">
+
+                <span class="menu-icon">
+                    ☷
+                </span>
+
+                <span>
+                    Dropdowns
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="system-box">
+
+                <span class="online-dot"></span>
+
+                <div>
+
+                    <strong>
+                        System Online
+                    </strong>
+
+                    <small>
+                        MySQL Connected
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="version">
+
+                Tire Traceability Demo
+                <br />
+
+                © 2026
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ========================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ========================= -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <div class="eyebrow">
+                    SYSTEM MANAGEMENT
+                </div>
+
+                <h1>
+                    Dropdown Management
+                </h1>
+
+                <p>
+                    Kelola master data yang digunakan sebagai pilihan
+                    dropdown pada sistem Tire Traceability.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- ========================= -->
+        <!-- NOTIFICATION -->
+        <!-- ========================= -->
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert success">
+
+                <span class="alert-icon">
+                    ✓
+                </span>
+
+                <span>
+                    @TempData["Success"]
+                </span>
+
+            </div>
+        }
+
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert error">
+
+                <span class="alert-icon">
+                    !
+                </span>
+
+                <span>
+                    @TempData["Error"]
+                </span>
+
+            </div>
+        }
+
+
+        <!-- ========================= -->
+        <!-- SECTION HEADER -->
+        <!-- ========================= -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <div class="section-label">
+                        MASTER DATA
+                    </div>
+
+                    <h2>
+                        Tire Size
+                    </h2>
+
+                    <p>
+                        Daftar ukuran ban yang tersedia pada sistem.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- ADD TIRE SIZE -->
+            <!-- ========================= -->
+
+            <div class="add-card">
+
+                <div class="add-title">
+
+                    <div class="add-icon">
+                        +
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Add Tire Size
+                        </strong>
+
+                        <small>
+                            Tambahkan ukuran ban baru
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <form method="post" asp-page-handler="Add" class="add-form">
+
+                    <div class="input-group">
+
+                        <label>
+                            Tire Size
+                        </label>
+
+                        <input
+                            type="text"
+                            name="NewTireSize"
+                            placeholder="Contoh: 195/65 R15"
+                            autocomplete="off"
+                        />
+
+                    </div>
+
+
+                    <button type="submit" class="btn-primary">
+
+                        <span>
+                            +
+                        </span>
+
+                        Add Tire Size
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- DATA TABLE -->
+            <!-- ========================= -->
+
+            <div class="table-card">
+
+
+                <div class="table-header">
+
+                    <div>
+
+                        <strong>
+                            Tire Size List
+                        </strong>
+
+                        <small>
+                            @Model.TireSizes.Count master data
+                        </small>
+
+                    </div>
+
+
+                    <div class="total-badge">
+
+                        @Model.TireSizes.Count
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    #
+                                </th>
+
+                                <th>
+                                    TIRE SIZE
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                                <th>
+                                    ACTION
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @if (Model.TireSizes.Count == 0)
+                            {
+                                <tr>
+
+                                    <td colspan="4" class="empty">
+
+                                        <div class="empty-icon">
+                                            ☷
+                                        </div>
+
+                                        <strong>
+                                            Belum ada Tire Size
+                                        </strong>
+
+                                        <span>
+                                            Tambahkan master Tire Size menggunakan form di atas.
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model.TireSizes)
+                                {
+                                    <tr>
+
+                                        <td class="number">
+                                            @item.Id.ToString("D2")
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="tire-size">
+
+                                                <div class="tire-icon">
+                                                    ◉
+                                                </div>
+
+                                                <strong>
+                                                    @item.Value
+                                                </strong>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            @if (item.IsActive)
+                                            {
+                                                <span class="status active">
+                                                    <span></span>
+                                                    Active
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="status inactive">
+                                                    <span></span>
+                                                    Inactive
+                                                </span>
+                                            }
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="actions">
+
+
+                                                <!-- EDIT -->
+
+                                                <button
+                                                    type="button"
+                                                    class="btn-edit"
+                                                    onclick="openEditModal(
+                                                        @item.Id,
+                                                        '@item.Value.Replace("'", "\\'")'
+                                                    )">
+
+                                                    Edit
+
+                                                </button>
+
+
+                                                <!-- ACTIVE -->
+
+                                                <form
+                                                    method="post"
+                                                    asp-page-handler="Toggle"
+                                                    class="inline-form">
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="id"
+                                                        value="@item.Id"
+                                                    />
+
+                                                    @if (item.IsActive)
+                                                    {
+                                                        <button
+                                                            type="submit"
+                                                            class="btn-disable">
+
+                                                            Disable
+
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button
+                                                            type="submit"
+                                                            class="btn-enable">
+
+                                                            Enable
+
+                                                        </button>
+                                                    }
+
+                                                </form>
+
+
+                                                <!-- DELETE -->
+
+                                                <form
+                                                    method="post"
+                                                    asp-page-handler="Delete"
+                                                    class="inline-form"
+                                                    onsubmit="return confirmDelete('@item.Value.Replace("'", "\\'")');">
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="id"
+                                                        value="@item.Id"
+                                                    />
+
+                                                    <button
+                                                        type="submit"
+                                                        class="btn-delete">
+
+                                                        Delete
+
+                                                    </button>
+
+                                                </form>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- INFORMATION -->
+        <!-- ========================= -->
+
+        <section class="info-card">
+
+            <div class="info-icon">
+                i
+            </div>
+
+            <div>
+
+                <strong>
+                    Tentang Master Data
+                </strong>
+
+                <p>
+                    Tire Size yang aktif nantinya akan muncul sebagai
+                    pilihan dropdown pada proses Building. Operator
+                    tidak perlu mengetik Tire Size secara manual.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- EDIT MODAL -->
+<!-- ========================= -->
+
+<div id="editModal" class="modal-overlay">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <div class="section-label">
+                    MASTER DATA
+                </div>
+
+                <h2>
+                    Edit Tire Size
+                </h2>
+
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                onclick="closeEditModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <form method="post" asp-page-handler="Edit">
+
+            <input
+                type="hidden"
+                id="editId"
+                name="EditId"
+            />
+
+
+            <div class="input-group">
+
+                <label>
+                    Tire Size
+                </label>
+
+                <input
+                    type="text"
+                    id="editTireSize"
+                    name="EditTireSize"
+                    autocomplete="off"
+                />
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="btn-cancel"
+                    onclick="closeEditModal()">
+
+                    Cancel
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn-primary">
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: #090909;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================
+   SHELL
+========================= */
+
+.admin-shell {
+    display: flex;
+    min-height: 100vh;
+    background: #090909;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 270px;
+    height: 100vh;
+
+    padding: 28px 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #111111;
+
+    border-right: 1px solid #292929;
+}
+
+
+.brand {
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 5px 10px 30px;
+
+    border-bottom: 1px solid #292929;
+}
+
+
+.brand-mark {
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e30613;
+
+    border-radius: 6px;
+
+    font-size: 23px;
+    font-weight: 800;
+}
+
+
+.brand-title {
+
+    font-size: 19px;
+    font-weight: 800;
+
+    letter-spacing: 3px;
+}
+
+
+.brand-subtitle {
+
+    margin-top: 3px;
+
+    color: #777777;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+
+.menu-label {
+
+    margin: 34px 12px 12px;
+
+    color: #555555;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.menu {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.menu-item {
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 14px;
+
+    color: #999999;
+
+    border-radius: 6px;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+
+.menu-item:hover {
+
+    color: #ffffff;
+
+    background: #1c1c1c;
+}
+
+
+.menu-item.active {
+
+    color: #ffffff;
+
+    background: #e30613;
+}
+
+
+.menu-icon {
+
+    width: 24px;
+
+    text-align: center;
+
+    font-size: 18px;
+}
+
+
+.sidebar-bottom {
+
+    margin-top: auto;
+}
+
+
+.system-box {
+
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 15px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+
+.online-dot {
+
+    width: 8px;
+    height: 8px;
+
+    flex-shrink: 0;
+
+    background: #36c85f;
+
+    border-radius: 50%;
+}
+
+
+.system-box strong {
+
+    display: block;
+
+    font-size: 13px;
+}
+
+
+.system-box small {
+
+    display: block;
+
+    margin-top: 4px;
+
+    color: #666666;
+
+    font-size: 10px;
+}
+
+
+.version {
+
+    margin-top: 18px;
+
+    color: #444444;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main-content {
+
+    width: calc(100% - 270px);
+
+    margin-left: 270px;
+
+    padding: 48px 55px 70px;
+}
+
+
+.topbar {
+
+    margin-bottom: 40px;
+}
+
+
+.eyebrow,
+.section-label {
+
+    color: #e30613;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.topbar h1 {
+
+    margin: 9px 0 8px;
+
+    font-size: 40px;
+
+    line-height: 1.1;
+
+    font-weight: 800;
+}
+
+
+.topbar p {
+
+    margin: 0;
+
+    max-width: 750px;
+
+    color: #999999;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   ALERT
+========================= */
+
+.alert {
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+
+    padding: 15px 18px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+}
+
+
+.alert.success {
+
+    background: #0d2416;
+
+    border: 1px solid #174d29;
+
+    color: #69dc8b;
+}
+
+
+.alert.error {
+
+    background: #2b1012;
+
+    border: 1px solid #5d1c20;
+
+    color: #ff7079;
+}
+
+
+.alert-icon {
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-weight: 800;
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+.section {
+
+    margin-top: 20px;
+}
+
+
+.section-header {
+
+    margin-bottom: 22px;
+}
+
+
+.section-header h2 {
+
+    margin: 7px 0 6px;
+
+    font-size: 27px;
+}
+
+
+.section-header p {
+
+    margin: 0;
+
+    color: #777777;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   ADD CARD
+========================= */
+
+.add-card {
+
+    margin-bottom: 25px;
+
+    padding: 25px;
+
+    background: #121212;
+
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+}
+
+
+.add-title {
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 22px;
+}
+
+
+.add-icon {
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e30613;
+
+    border-radius: 6px;
+
+    font-size: 23px;
+}
+
+
+.add-title strong {
+
+    display: block;
+
+    font-size: 16px;
+}
+
+
+.add-title small {
+
+    display: block;
+
+    margin-top: 4px;
+
+    color: #666666;
+
+    font-size: 11px;
+}
+
+
+.add-form {
+
+    display: flex;
+    align-items: end;
+
+    gap: 15px;
+}
+
+
+.input-group {
+
+    flex: 1;
+}
+
+
+.input-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #aaaaaa;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+.input-group input {
+
+    width: 100%;
+
+    padding: 13px 15px;
+
+    background: #0b0b0b;
+
+    border: 1px solid #333333;
+
+    border-radius: 5px;
+
+    outline: none;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+
+.input-group input:focus {
+
+    border-color: #e30613;
+
+    box-shadow: 0 0 0 2px rgba(227, 6, 19, 0.1);
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn-primary {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    min-height: 44px;
+
+    padding: 0 20px;
+
+    background: #e30613;
+
+    border: 1px solid #e30613;
+
+    border-radius: 5px;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.btn-primary:hover {
+
+    background: #c90511;
+
+    border-color: #c90511;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-card {
+
+    overflow: hidden;
+
+    background: #121212;
+
+    border: 1px solid #292929;
+
+    border-radius: 8px;
+}
+
+
+.table-header {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px 23px;
+
+    border-bottom: 1px solid #292929;
+}
+
+
+.table-header strong {
+
+    display: block;
+
+    font-size: 15px;
+}
+
+
+.table-header small {
+
+    display: block;
+
+    margin-top: 5px;
+
+    color: #666666;
+
+    font-size: 11px;
+}
+
+
+.total-badge {
+
+    min-width: 35px;
+
+    padding: 7px 10px;
+
+    text-align: center;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 5px;
+
+    color: #e30613;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.table-wrapper {
+
+    overflow-x: auto;
+}
+
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+
+thead {
+
+    background: #181818;
+}
+
+
+th {
+
+    padding: 14px 20px;
+
+    color: #666666;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+
+td {
+
+    padding: 18px 20px;
+
+    border-top: 1px solid #242424;
+
+    font-size: 14px;
+}
+
+
+.number {
+
+    color: #555555;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   TIRE SIZE
+========================= */
+
+.tire-size {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+
+.tire-icon {
+
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #1c1c1c;
+
+    border: 1px solid #333333;
+
+    border-radius: 50%;
+
+    color: #e30613;
+
+    font-size: 16px;
+}
+
+
+.tire-size strong {
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 6px 9px;
+
+    border-radius: 4px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.status span {
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+}
+
+
+.status.active {
+
+    background: #102419;
+
+    color: #63d886;
+}
+
+
+.status.active span {
+
+    background: #36c85f;
+}
+
+
+.status.inactive {
+
+    background: #252525;
+
+    color: #777777;
+}
+
+
+.status.inactive span {
+
+    background: #555555;
+}
+
+
+/* =========================
+   ACTION
+========================= */
+
+.actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+
+.inline-form {
+
+    display: inline;
+}
+
+
+.actions button {
+
+    padding: 7px 10px;
+
+    border-radius: 4px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.btn-edit {
+
+    background: #1b1b1b;
+
+    border: 1px solid #353535;
+
+    color: #dddddd;
+}
+
+
+.btn-edit:hover {
+
+    border-color: #777777;
+}
+
+
+.btn-disable {
+
+    background: #281b10;
+
+    border: 1px solid #4a3017;
+
+    color: #dba45e;
+}
+
+
+.btn-enable {
+
+    background: #102419;
+
+    border: 1px solid #1c512c;
+
+    color: #63d886;
+}
+
+
+.btn-delete {
+
+    background: #281012;
+
+    border: 1px solid #4a181c;
+
+    color: #e96a72;
+}
+
+
+.btn-delete:hover {
+
+    background: #3a1215;
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty {
+
+    padding: 60px 20px;
+
+    text-align: center;
+}
+
+
+.empty-icon {
+
+    margin-bottom: 12px;
+
+    color: #444444;
+
+    font-size: 30px;
+}
+
+
+.empty strong {
+
+    display: block;
+
+    font-size: 14px;
+}
+
+
+.empty span {
+
+    display: block;
+
+    margin-top: 6px;
+
+    color: #666666;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+.info-card {
+
+    display: flex;
+
+    gap: 15px;
+
+    margin-top: 25px;
+
+    padding: 20px;
+
+    background: #111111;
+
+    border: 1px solid #292929;
+
+    border-radius: 7px;
+}
+
+
+.info-icon {
+
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #261012;
+
+    border: 1px solid #46171b;
+
+    border-radius: 50%;
+
+    color: #e30613;
+
+    font-weight: 700;
+}
+
+
+.info-card strong {
+
+    font-size: 13px;
+}
+
+
+.info-card p {
+
+    margin: 7px 0 0;
+
+    color: #777777;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, 0.75);
+}
+
+
+.modal-overlay.show {
+
+    display: flex;
+}
+
+
+.modal {
+
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 28px;
+
+    background: #151515;
+
+    border: 1px solid #333333;
+
+    border-radius: 8px;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+
+.modal-header {
+
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    margin-bottom: 28px;
+}
+
+
+.modal-header h2 {
+
+    margin: 7px 0 0;
+
+    font-size: 23px;
+}
+
+
+.modal-close {
+
+    width: 34px;
+    height: 34px;
+
+    background: #1c1c1c;
+
+    border: 1px solid #333333;
+
+    border-radius: 5px;
+
+    color: #999999;
+
+    font-size: 22px;
+
+    cursor: pointer;
+}
+
+
+.modal-close:hover {
+
+    color: #ffffff;
+}
+
+
+.modal-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+
+.btn-cancel {
+
+    padding: 12px 18px;
+
+    background: #1c1c1c;
+
+    border: 1px solid #333333;
+
+    border-radius: 5px;
+
+    color: #aaaaaa;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@@media (max-width: 900px) {
+
+    .sidebar {
+
+        width: 220px;
+
+    }
+
+    .main-content {
+
+        width: calc(100% - 220px);
+
+        margin-left: 220px;
+
+        padding: 35px 25px;
+
+    }
+
+    .add-form {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+}
+
+
+@@media (max-width: 700px) {
+
+    .sidebar {
+
+        width: 70px;
+
+        padding: 20px 8px;
+
+    }
+
+    .brand {
+
+        justify-content: center;
+
+        padding-left: 0;
+
+        padding-right: 0;
+
+    }
+
+    .brand > div:last-child,
+    .menu-label,
+    .menu-item span:last-child,
+    .system-box div,
+    .version {
+
+        display: none;
+
+    }
+
+    .menu-item {
+
+        justify-content: center;
+
+    }
+
+    .main-content {
+
+        width: calc(100% - 70px);
+
+        margin-left: 70px;
+
+        padding: 30px 15px;
+
+    }
+
+    .topbar h1 {
+
+        font-size: 30px;
+
+    }
+
+    .actions {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+}
+
+</style>
+
+
+<script>
+
+function openEditModal(id, size) {
+
+    document.getElementById("editId").value = id;
+
+    document.getElementById("editTireSize").value = size;
+
+    document.getElementById("editModal").classList.add("show");
+
+}
+
+
+function closeEditModal() {
+
+    document.getElementById("editModal").classList.remove("show");
+
+}
+
+
+function confirmDelete(size) {
+
+    return confirm(
+        "Apakah kamu yakin ingin menghapus Tire Size \"" +
+        size +
+        "\"?"
+    );
+
+}
+
+
+document.getElementById("editModal").addEventListener(
+    "click",
+    function(event) {
+
+        if (event.target === this) {
+
+            closeEditModal();
+
+        }
+
+    }
+);
+
+</script>

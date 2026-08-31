@@ -1,0 +1,674 @@
+@page
+@model TireTraceabilityDemo.Pages.Admin.Operators.IndexModel
+
+@{
+    ViewData["Title"] = "Operator Management";
+}
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background: #090909;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .admin-shell {
+        min-height: 100vh;
+        padding: 45px 55px 70px;
+        background: #090909;
+    }
+
+    .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 35px;
+    }
+
+    .eyebrow {
+        color: #e30613;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+
+    h1 {
+        margin: 10px 0 8px;
+        font-size: 38px;
+        font-weight: 800;
+    }
+
+    .subtitle {
+        margin: 0;
+        color: #888;
+        font-size: 15px;
+    }
+
+    .back-button {
+        padding: 12px 18px;
+        color: #ddd;
+        text-decoration: none;
+        background: #171717;
+        border: 1px solid #303030;
+        border-radius: 6px;
+        font-size: 13px;
+    }
+
+    .back-button:hover {
+        border-color: #e30613;
+        color: white;
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 22px;
+    }
+
+    .panel {
+        background: #111;
+        border: 1px solid #292929;
+        border-radius: 8px;
+        padding: 25px;
+    }
+
+    .panel-title {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .panel-description {
+        margin: 7px 0 25px;
+        color: #777;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .form-group {
+        margin-bottom: 17px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 7px;
+        color: #aaa;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 12px 13px;
+        color: white;
+        background: #191919;
+        border: 1px solid #333;
+        border-radius: 5px;
+        outline: none;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    input:focus,
+    select:focus {
+        border-color: #e30613;
+    }
+
+    select {
+        cursor: pointer;
+    }
+
+    select option {
+        background: #191919;
+        color: white;
+    }
+
+    .create-button {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 5px;
+        background: #e30613;
+        color: white;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .create-button:hover {
+        background: #c80511;
+    }
+
+    .error {
+        display: block;
+        margin-top: 5px;
+        color: #ff5b63;
+        font-size: 11px;
+    }
+
+    .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .count {
+        padding: 6px 10px;
+        background: #1c1c1c;
+        border: 1px solid #303030;
+        border-radius: 20px;
+        color: #aaa;
+        font-size: 11px;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        padding: 13px 12px;
+        color: #666;
+        border-bottom: 1px solid #292929;
+        text-align: left;
+        font-size: 10px;
+        letter-spacing: 1px;
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 15px 12px;
+        border-bottom: 1px solid #222;
+        color: #ddd;
+        font-size: 13px;
+    }
+
+    tr:hover td {
+        background: #151515;
+    }
+
+    .id {
+        color: #555;
+    }
+
+    .username {
+        color: white;
+        font-weight: 700;
+    }
+
+    .password {
+        color: #aaa;
+    }
+
+    .role {
+        display: inline-block;
+        padding: 5px 9px;
+        background: #241113;
+        border: 1px solid #4a1c20;
+        border-radius: 4px;
+        color: #e30613;
+        font-size: 10px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .status-active {
+        background: #102318;
+        color: #45c76b;
+        border: 1px solid #214c2c;
+    }
+
+    .status-inactive {
+        background: #211414;
+        color: #d95a5a;
+        border: 1px solid #4a2222;
+    }
+
+    .actions {
+        display: flex;
+        gap: 7px;
+    }
+
+    .action-button {
+        padding: 7px 10px;
+        border-radius: 4px;
+        border: 1px solid #333;
+        background: #1a1a1a;
+        color: #aaa;
+        cursor: pointer;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+    .action-button:hover {
+        color: white;
+        border-color: #666;
+    }
+
+    .delete-button:hover {
+        color: #ff5b63;
+        border-color: #8d252c;
+    }
+
+    .empty {
+        padding: 45px 20px;
+        color: #555;
+        text-align: center;
+    }
+
+    @@media (max-width: 1000px) {
+
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+    @@media (max-width: 700px) {
+
+        .admin-shell {
+            padding: 30px 20px;
+        }
+
+        .topbar {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+    }
+
+</style>
+
+
+<div class="admin-shell">
+
+    <!-- =========================
+         TOP BAR
+         ========================= -->
+
+    <div class="topbar">
+
+        <div>
+
+            <div class="eyebrow">
+                SYSTEM MANAGEMENT
+            </div>
+
+            <h1>
+                Operator Management
+            </h1>
+
+            <p class="subtitle">
+                Kelola akun operator yang dapat mengakses station produksi.
+            </p>
+
+        </div>
+
+        <a href="/Admin" class="back-button">
+            ← Back to Admin
+        </a>
+
+    </div>
+
+
+    <div class="content-grid">
+
+
+        <!-- =========================
+             CREATE OPERATOR
+             ========================= -->
+
+        <div class="panel">
+
+            <h2 class="panel-title">
+                Add Operator
+            </h2>
+
+            <p class="panel-description">
+                Buat akun baru untuk operator Building,
+                Curing, atau Final Inspection.
+            </p>
+
+
+            <form method="post" asp-page-handler="Create">
+
+
+                <!-- FULL NAME -->
+
+                <div class="form-group">
+
+                    <label>
+                        FULL NAME
+                    </label>
+
+                    <input
+                        asp-for="NewOperator.Name"
+                        placeholder="Contoh: Budi Santoso" />
+
+                    <span
+                        asp-validation-for="NewOperator.Name"
+                        class="error">
+                    </span>
+
+                </div>
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label>
+                        USERNAME
+                    </label>
+
+                    <input
+                        asp-for="NewOperator.Username"
+                        placeholder="Contoh: budi01" />
+
+                    <span
+                        asp-validation-for="NewOperator.Username"
+                        class="error">
+                    </span>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label>
+                        PASSWORD
+                    </label>
+
+                    <input
+                        asp-for="NewOperator.Password"
+                        type="text"
+                        placeholder="Contoh: 123456" />
+
+                    <span
+                        asp-validation-for="NewOperator.Password"
+                        class="error">
+                    </span>
+
+                </div>
+
+
+                <!-- STATION / ROLE -->
+
+                <div class="form-group">
+
+                    <label>
+                        STATION
+                    </label>
+
+                    <select asp-for="NewOperator.Role">
+
+                        <option value="Building">
+                            Building
+                        </option>
+
+                        <option value="Curing">
+                            Curing
+                        </option>
+
+                        <option value="Inspection">
+                            Final Inspection
+                        </option>
+
+                    </select>
+
+                    <span
+                        asp-validation-for="NewOperator.Role"
+                        class="error">
+                    </span>
+
+                </div>
+
+
+                <!-- CREATE BUTTON -->
+
+                <button
+                    type="submit"
+                    class="create-button">
+
+                    + Create Operator
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- =========================
+             OPERATOR TABLE
+             ========================= -->
+
+        <div class="panel">
+
+            <div class="table-header">
+
+                <div>
+
+                    <h2 class="panel-title">
+                        Operator Accounts
+                    </h2>
+
+                </div>
+
+                <div class="count">
+                    @Model.Operators.Count ACCOUNT(S)
+                </div>
+
+            </div>
+
+
+            @if (Model.Operators.Count == 0)
+            {
+                <div class="empty">
+                    Belum ada akun operator.
+                </div>
+            }
+            else
+            {
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    ID
+                                </th>
+
+                                <th>
+                                    NAME
+                                </th>
+
+                                <th>
+                                    USERNAME
+                                </th>
+
+                                <th>
+                                    PASSWORD
+                                </th>
+
+                                <th>
+                                    STATION
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                                <th>
+                                    ACTION
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var item in Model.Operators)
+                            {
+
+                                <tr>
+
+                                    <!-- ID -->
+
+                                    <td class="id">
+                                        #@item.Id
+                                    </td>
+
+
+                                    <!-- NAME -->
+
+                                    <td>
+                                        @item.Name
+                                    </td>
+
+
+                                    <!-- USERNAME -->
+
+                                    <td class="username">
+                                        @item.Username
+                                    </td>
+
+
+                                    <!-- PASSWORD -->
+
+                                    <td class="password">
+                                        @item.Password
+                                    </td>
+
+
+                                    <!-- ROLE / STATION -->
+
+                                    <td>
+
+                                        <span class="role">
+                                            @item.Role
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+                                        @if (item.IsActive)
+                                        {
+                                            <span class="status status-active">
+                                                ACTIVE
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="status status-inactive">
+                                                INACTIVE
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- ACTION -->
+
+                                    <td>
+
+                                        <div class="actions">
+
+
+                                            <!-- ENABLE / DISABLE -->
+
+                                            <form
+                                                method="post"
+                                                asp-page-handler="ToggleStatus"
+                                                asp-route-id="@item.Id">
+
+                                                <button
+                                                    type="submit"
+                                                    class="action-button">
+
+                                                    @(item.IsActive
+                                                        ? "Disable"
+                                                        : "Enable")
+
+                                                </button>
+
+                                            </form>
+
+
+                                            <!-- DELETE -->
+
+                                            <form
+                                                method="post"
+                                                asp-page-handler="Delete"
+                                                onsubmit="return confirm('Hapus akun operator ini?');">
+
+                                                <input
+                                                    type="hidden"
+                                                    name="DeleteId"
+                                                    value="@item.Id" />
+
+                                                <button
+                                                    type="submit"
+                                                    class="action-button delete-button">
+
+                                                    Delete
+
+                                                </button>
+
+                                            </form>
+
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+
+</div>
